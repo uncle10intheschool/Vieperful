@@ -57,6 +57,20 @@ async function run() {
     fs.mkdirSync(path.join(root, "test-results"), { recursive: true });
     await page.screenshot({ path: path.join(root, "test-results/home-desktop.png"), fullPage: true });
   });
+  await check("Hành trình gợi ý: chọn hoàn cảnh → chọn mùi → chọn dung tích", async () => {
+    assert.ok(await page.locator(".hero-copy > p").evaluate(el => parseFloat(getComputedStyle(el).fontSize) >= 18));
+    await page.getByRole("button", { name: "Tìm mùi hương của bạn" }).click();
+    assert.equal(await page.evaluate(() => document.activeElement.getAttribute("href")), "#/collection?occasion=work");
+    await page.keyboard.press("Enter");
+    await page.locator("#filter-occasion").waitFor();
+    assert.equal(await page.locator("#filter-occasion").inputValue(), "work");
+    assert.equal(await page.locator(".product-card").count(), 3);
+    assert.match(await page.locator('.shopping-steps [aria-current="step"]').innerText(), /Chọn mùi hương/);
+    await page.locator(".card-detail-link").first().click();
+    await page.locator("#product-form").waitFor();
+    assert.match(await page.locator('.shopping-steps [aria-current="step"]').innerText(), /Chọn dung tích/);
+    assert.ok(await page.locator(".detail-copy > p").last().evaluate(el => parseFloat(getComputedStyle(el).fontSize) >= 14));
+  });
   await check("Bộ sưu tập: lọc nhóm hương và dịp sử dụng", async () => {
     await go("/collection");
     assert.equal(await page.locator(".product-card").count(), 6);
@@ -199,6 +213,8 @@ async function run() {
   await check("Điện thoại 390 px: menu, bộ lọc, giỏ và bố cục", async () => {
     await page.setViewportSize({ width: 390, height: 844 });
     await go("/");
+    assert.equal(await page.locator(".product-card:visible").count(), 3);
+    assert.ok(await page.locator(".product-card-body > p").first().evaluate(el => parseFloat(getComputedStyle(el).fontSize) >= 16));
     await page.screenshot({ path: path.join(root, "test-results/home-mobile.png"), fullPage: true });
     await page.getByRole("button", { name: "Mở menu", exact: true }).click();
     await page.locator("#menu-dialog").getByRole("link", { name: /Bộ sưu tập/ }).click();

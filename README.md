@@ -4,6 +4,8 @@
 
 Website dự án môn học về nước hoa, viết bằng **HTML, CSS và JavaScript thuần**. Không cần framework, cơ sở dữ liệu hoặc bước build để chạy website. Ngôn ngữ giao diện: tiếng Việt.
 
+Bản bố cục mới: chữ nội dung 16–18 px, chọn hoàn cảnh ngay sau phần mở đầu, thẻ sản phẩm có hành động rõ ràng và chỉ dẫn 3 bước chọn mua. Xem [ảnh và hướng dẫn chỉnh bố cục](docs/LAYOUT.md).
+
 ## Chạy trong VS Code
 
 ### Cách 1 — Live Server
@@ -65,7 +67,8 @@ Giỏ hàng mở từ biểu tượng túi. Menu điện thoại, giỏ hàng v�
 ```text
 Vieperful/
 ├── index.html              # Khung trang, header, footer, các hộp thoại
-├── css/style.css           # Màu sắc, bố cục, responsive, chuyển động
+├── css/style.css           # Biến cỡ chữ, màu sắc, thành phần và chuyển động
+├── css/layout.css          # Bố cục mới, khoảng cách, thẻ sản phẩm, responsive
 ├── js/
 │   ├── products.js         # Toàn bộ dữ liệu sản phẩm minh họa
 │   ├── store.js            # Giỏ hàng, tổng tiền, lưu đơn bằng localStorage
@@ -78,6 +81,7 @@ Vieperful/
 │   └── fonts/             # Lora, Be Vietnam Pro và giấy phép OFL
 ├── scripts/serve.cjs       # Máy chủ tĩnh nhỏ, có hỗ trợ HTTP Range cho video
 ├── tests/e2e.cjs           # Kiểm thử trình duyệt bằng Playwright
+├── docs/LAYOUT.md          # Sơ đồ trang, ảnh giao diện, cách chỉnh thiết kế
 ├── package.json
 ├── package-lock.json      # Khóa phiên bản thư viện kiểm thử
 └── README.md
@@ -185,7 +189,7 @@ Bộ kiểm thử bao gồm:
 - Dữ liệu lưu hỏng và trường hợp không được phép lưu đơn.
 - Không có lỗi JavaScript hoặc tài nguyên HTTP thất bại trong các luồng chính.
 
-Kết quả kiểm tra khi bàn giao: **19/19 nhóm kiểm thử đạt**; `npm run check` cũng đạt.
+Kết quả kiểm tra bản bố cục mới: **20/20 nhóm kiểm thử đạt**; `npm run check` cũng đạt. Có kiểm tra hành trình từ nút chọn hương trên trang chủ đến bộ lọc theo dịp và trang chọn dung tích.
 
 Ảnh chụp kiểm thử nằm trong `test-results/` (được Git bỏ qua). Các phép thử trình duyệt tự động không thay thế hoàn toàn kiểm tra bằng người dùng.
 

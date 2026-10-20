@@ -1,0 +1,262 @@
+/* Bố cục hiện tại: sửa file này để chỉnh khoảng cách, thứ tự thị giác
+   và kích thước khu vực. Cỡ chữ dùng các biến ở đầu style.css. */
+
+/* 1. Chữ và thao tác chính */
+.button, .hero .button { font-size: var(--text-body); gap: 22px; min-height: 54px; }
+.text-link, .hero-story-link { font-size: var(--text-small); }
+.hero-copy > p { font-size: var(--text-lead); line-height: 1.8; }
+.story-copy p, .occasion-card p, .section-intro, .section-heading-side > p,
+.product-card-body > p, .page-intro > p, .detail-copy > p:not(.detail-subtitle),
+.about-text p, .guide-grid p, .faq-list p, .notes-details > p,
+.scent-notes p, .empty-state p { font-size: var(--text-body); line-height: 1.8; }
+.filters label, .field > label, .size-options legend { font-size: var(--text-small); font-weight: 500; }
+.filters input, .filters select, .field input, .field textarea { font-size: var(--text-body); min-height: 50px; }
+.filters input::placeholder, .field input::placeholder, .field textarea::placeholder { font-size: var(--text-small); }
+.small-note, .detail-copy .small-note, .concept-note, .demo-notice p,
+.checkbox-label > span, .cart-summary p, .drawer-note, .field-error { font-size: var(--text-small) !important; line-height: 1.8; }
+.desktop-nav { font-size: var(--text-body); gap: 26px; }
+.site-header { position: sticky; top: 0; background: #f8f5eef5; backdrop-filter: blur(12px); }
+.eyebrow { letter-spacing: 1.6px; }
+.icon-button { min-width: 44px; min-height: 44px; }
+
+/* 2. Trang chủ: mở đầu → chọn hoàn cảnh → sản phẩm → câu chuyện */
+.hero { grid-template-columns: 48% 52%; }
+.hero-copy { padding-top: 65px; padding-bottom: 36px; }
+.hero-eyebrow { font-size: var(--text-label); white-space: normal; max-width: 360px; line-height: 1.8; }
+.hero h1 { font-size: clamp(46px, 4.8vw, 70px); line-height: 1.22; }
+.hero-actions { display: flex; flex-direction: column; align-items: flex-start; gap: 18px; }
+.hero-story-link { margin-top: 0; border-bottom: 1px solid var(--line); padding-bottom: 4px; }
+.hero-caption { gap: 18px; padding-top: 35px; font-size: var(--text-small); }
+.hero-number { font: 36px var(--serif); letter-spacing: -1px; padding-right: 20px; }
+.hero-caption img { width: 30px; }
+.media-label { font-size: 11px; letter-spacing: 1.5px; }
+.video-toggle { font-size: var(--text-small); min-height: 44px; background: #14221e80; }
+.section { padding-block: 76px; }
+.section-heading { align-items: flex-end; margin-bottom: 32px; }
+.section-heading h2 { font-size: clamp(32px, 3.2vw, 46px); }
+.section-heading .eyebrow { font-size: var(--text-label); margin-bottom: 14px; }
+.section-intro { max-width: 350px; margin-bottom: 4px; }
+.occasion-grid { gap: 18px; border: 0; }
+.occasion-card { padding: 28px; border: 1px solid var(--line); text-align: left; background: #f0f0e5; }
+.occasion-card:nth-child(2) { background: #f4eae2; }
+.occasion-card:nth-child(3) { background: #e9ede5; }
+.occasion-card:hover { background: #e7e7d7; border-color: #a7ab91; }
+.occasion-card-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.occasion-number { font-size: var(--text-label); letter-spacing: .5px; color: var(--muted); }
+.occasion-icon { width: 28px; height: 28px; color: var(--gold); flex-shrink: 0; }
+.occasion-card h3 { font-size: 26px; margin: 24px 0 12px; max-width: none; }
+.occasion-card p { max-width: none; min-height: 58px; margin-bottom: 18px; }
+.occasion-card .text-link { font-size: var(--text-small); display: flex; justify-content: space-between; gap: 12px; }
+.featured-section { background: #eeece2; border-top: 1px solid var(--line); }
+.story-copy { padding: 65px max(48px, calc((100vw - 1240px)/2)) 65px 60px; }
+.story-copy h2 { font-size: clamp(32px, 3.2vw, 44px); }
+.story-copy .eyebrow, .story-copy .text-link { font-size: var(--text-small); }
+.story-copy .eyebrow { font-size: var(--text-label); }
+.story-image { min-height: 530px; }
+.closing-note { padding-block: 64px; }
+.closing-note .text-link { max-width: 100%; text-align: left; gap: 20px; }
+
+/* 3. Thẻ sản phẩm: nhóm hương → tên/giá → chọn dung tích → thêm nhanh */
+.product-grid { gap: 26px; }
+.product-card { background: var(--paper); border: 1px solid #dedbce; }
+.product-visual { aspect-ratio: 1 / .94; }
+.product-visual img { transform: scale(1.06); }
+.product-visual:hover img { transform: scale(1.1); }
+.product-tag { font-size: 11px; letter-spacing: .8px; }
+.product-card-body { padding: 23px; }
+.product-card-body .eyebrow { font-size: var(--text-label); letter-spacing: 1px; color: var(--gold); }
+.product-title-row { display: flex; align-items: baseline; flex-wrap: wrap; margin-top: 9px; gap: 8px 12px; }
+.product-title-row h3 { font-size: 29px; }
+.product-title-row > span { font-size: var(--text-lead); font-weight: 500; margin: 0; }
+.product-card-body > p { margin: 12px 0 8px; }
+.card-price-caption { display: block; font-size: var(--text-label); color: var(--muted); margin-bottom: 18px; }
+.card-detail-link { display: flex; align-items: center; justify-content: space-between; gap: 10px; font-size: var(--text-small); color: var(--green); min-height: 44px; border-bottom: 1px solid var(--line); }
+.card-detail-link:hover { color: var(--gold); }
+.product-bottom { border: 0; padding-top: 14px; }
+.product-bottom button { width: 100%; padding: 9px 14px; min-height: 44px; justify-content: space-between; border: 1px solid #c7d1c2; background: #edf1e8; color: var(--green); font-size: var(--text-small); }
+.product-bottom button:hover { background: var(--green); color: var(--paper); }
+.product-bottom button span { color: inherit; }
+.concept-note { margin-top: 28px; text-align: left; max-width: 850px; }
+
+/* 4. Điều hướng hành trình, bộ lọc và chi tiết */
+.shopping-steps { margin-top: 28px; }
+.shopping-steps ol { display: flex; list-style: none; padding: 18px 24px; margin: 0; gap: 36px; border: 1px solid var(--line); background: #f0f0e7; }
+.shopping-steps li { display: flex; align-items: center; gap: 10px; font-size: var(--text-small); color: var(--muted); }
+.shopping-steps li[aria-current] { color: var(--green); font-weight: 500; }
+.step-circle { display: grid; place-items: center; width: 28px; height: 28px; border: 1px solid #b8bcad; border-radius: 50%; flex-shrink: 0; font-size: 13px; }
+[aria-current] > .step-circle { background: var(--green); border-color: var(--green); color: white; }
+.is-complete > .step-circle { color: var(--green); background: #e0e8d8; }
+.shopping-steps a:hover { text-decoration: underline; }
+.page-intro { padding-bottom: 35px; }
+.page-intro h1 { font-size: clamp(36px, 4vw, 56px); }
+.page-intro > p { max-width: 780px; }
+.breadcrumb { font-size: var(--text-small); margin-bottom: 28px; }
+.filters { grid-template-columns: 1fr 1fr 1.25fr 1fr; gap: 18px; padding: 22px; background: #eeece2; border: 1px solid var(--line); }
+.filters label { letter-spacing: 0; }
+.results-bar { font-size: var(--text-small); }
+.results-bar .text-link { font-size: var(--text-small); }
+.detail-layout { gap: 55px; grid-template-columns: 1fr 1fr; }
+.detail-art { position: sticky; top: 124px; min-height: 580px; }
+.detail-copy .occasion-tags span, .detail-price-row > span { font-size: var(--text-small); }
+#product-form { background: #eeece2; padding: 22px; border: 1px solid var(--line); margin-block: 25px; }
+.size-options { margin-top: 0; }
+.size-options span { font-size: var(--text-body); min-width: 75px; text-align: center; }
+.detail-price-row strong { font-size: 30px; }
+.notes-details summary, .faq-list summary { font-size: var(--text-body); }
+.notes-details { padding-block: 22px; }
+
+/* 5. Giỏ hàng và chân trang */
+.drawer { width: 520px; }
+.cart-item-content > p, .cart-item-bottom > strong, .quantity-control span { font-size: var(--text-small); }
+.quantity-control { height: 40px; }
+.quantity-control button { height: 38px; width: 36px; }
+.remove-button { width: 40px; height: 40px; }
+.order-review { top: 125px; }
+.footer-main { grid-template-columns: 1.25fr 1fr 1fr; gap: 35px; }
+.footer-main h3 { font-size: var(--text-body); }
+.footer-main > div > a:not(.brand), .footer-brand > p, .footer-note p, .footer-note .text-link { font-size: var(--text-small); }
+.footer-main > div > a:not(.brand) { min-height: 32px; }
+.footer-note { grid-column: 1 / -1; padding-top: 24px; border-top: 1px solid var(--line); max-width: none; }
+.footer-note p { max-width: 780px; }
+.footer-bottom { font-size: var(--text-label); }
+
+@media (max-width: 1100px) {
+  .desktop-nav { display: none; }
+  .mobile-only { display: flex; }
+  .hero-copy { padding: 44px 30px; }
+  .hero h1 { font-size: 49px; }
+  .hero-caption { padding-top: 30px; }
+  .hero-caption img { display: none; }
+  .occasion-card { padding: 22px; }
+  .occasion-card h3 { font-size: 23px; }
+  .occasion-card p { min-height: 86px; }
+  .product-card-body { padding: 20px; }
+  .product-title-row h3 { font-size: 27px; }
+  .story-copy { padding: 45px 32px; }
+  .detail-layout { gap: 35px; }
+  .detail-art { min-height: 490px; }
+  .filters { grid-template-columns: 1fr 1fr; }
+  .shopping-steps ol { gap: 24px; }
+}
+@media (max-width: 800px) {
+  .hero { grid-template-columns: 1fr 1fr; min-height: 600px; }
+  .hero h1 { font-size: 43px; }
+  .hero-copy { padding-inline: 25px; }
+  .hero .button { padding-inline: 18px; gap: 16px; }
+  .hero-copy > p br { display: none; }
+  .hero-caption { flex-wrap: wrap; gap: 14px; }
+  .hero-caption > span:last-of-type { flex: 1; min-width: 130px; }
+  .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .occasion-grid { grid-template-columns: 1fr; gap: 12px; }
+  .occasion-card { padding: 24px; }
+  .occasion-card h3 { font-size: 27px; margin-top: 15px; }
+  .occasion-card p { min-height: 0; }
+  .occasion-card .text-link { display: inline-flex; gap: 30px; }
+  .story-band { grid-template-columns: 1fr; }
+  .story-image { min-height: 400px; }
+  .story-copy { padding: 44px 32px; }
+  .story-copy p { max-width: 620px; }
+  .section-heading { align-items: flex-start; }
+  .section-intro br { display: none; }
+  .section-heading-side > p { display: block; }
+  .detail-layout { grid-template-columns: 1fr; }
+  .detail-art { position: relative; top: auto; height: 500px; min-height: 0; }
+  .detail-art > img { height: 100%; }
+  .shopping-steps ol { gap: 18px; justify-content: space-between; padding-inline: 18px; }
+  .shopping-steps li { gap: 8px; font-size: var(--text-label); }
+  .footer-main { grid-template-columns: 1fr 1fr; }
+  .footer-brand { grid-column: 1 / -1; }
+  .order-review { position: static; }
+}
+@media (max-width: 600px) {
+  .site-header { height: 84px; padding-inline: 16px; }
+  .brand > span { font-size: 20px; letter-spacing: 2px; }
+  .brand small { display: none; }
+  .brand img { width: 26px; }
+  .header-actions { gap: 0; }
+  .header-actions .icon-button { width: 40px; min-width: 40px; }
+  .announcement { font-size: 11px; letter-spacing: .5px; }
+  .hero { display: flex; min-height: 0; }
+  .hero-copy { padding: 35px 22px 28px; }
+  .hero h1 { font-size: clamp(43px, 11.5vw, 60px); }
+  .hero-eyebrow { font-size: 11px; letter-spacing: 1px; }
+  .hero-copy > p { font-size: var(--text-lead); }
+  .hero-actions { width: 100%; }
+  .hero .button { width: 100%; justify-content: space-between; }
+  .hero-caption { margin-top: 26px; padding-top: 20px; flex-wrap: nowrap; }
+  .hero-number { font-size: 30px; }
+  .hero-caption > span:last-of-type { font-size: var(--text-small); }
+  .hero-caption > span:nth-child(2) br { display: block; }
+  .hero-media { height: 350px; }
+  .media-bottom { left: 22px; right: 18px; align-items: flex-end; gap: 12px; }
+  .media-bottom > span { font-size: 25px; }
+  .video-toggle { font-size: var(--text-label); padding: 8px 12px; }
+  .media-label { font-size: 10px; }
+  .section { padding-block: 44px; }
+  .section-heading { flex-direction: column; gap: 18px; margin-bottom: 26px; }
+  .section-heading h2 { font-size: 34px; }
+  .section-heading .eyebrow { font-size: 11px; letter-spacing: 1px; }
+  .section-heading-side .text-link { font-size: var(--text-small); }
+  .section-heading-side > p { display: none; }
+  .product-grid { grid-template-columns: 1fr; gap: 25px; }
+  .product-visual { aspect-ratio: 1 / .82; }
+  .product-card-body { padding: 22px; }
+  .product-title-row h3 { font-size: 30px; }
+  .product-title-row > span { font-size: 20px; }
+  .product-tag { font-size: 11px; left: 18px; top: 18px; }
+  .product-card-body .eyebrow { font-size: var(--text-label); }
+  .product-card-body > p { font-size: var(--text-body); }
+  .product-bottom button { font-size: var(--text-body); min-height: 48px; }
+  .occasion-card { padding: 22px; }
+  .occasion-card h3 { font-size: 27px; }
+  .occasion-card .text-link { display: flex; justify-content: space-between; gap: 12px; }
+  .occasion-number { font-size: var(--text-label); }
+  .story-copy { padding: 40px 24px; }
+  .story-image { min-height: 330px; }
+  .story-copy h2 { font-size: 36px; }
+  .image-caption { font-size: 11px; max-width: calc(100% - 44px); }
+  .closing-note { padding-block: 44px; }
+  .shopping-steps { margin-top: 20px; }
+  .shopping-steps ol { gap: 8px; padding: 15px 10px; }
+  .shopping-steps li { flex: 1; flex-direction: column; text-align: center; font-size: 12px; gap: 7px; line-height: 1.5; }
+  .shopping-steps li > :last-child { max-width: 95px; }
+  .page-intro { padding-top: 22px; }
+  .page-intro > h1 { font-size: 36px; }
+  .page-intro > .eyebrow { font-size: 11px; letter-spacing: 1px; }
+  .page-intro > p { font-size: var(--text-body); }
+  .breadcrumb { font-size: var(--text-label); gap: 8px; }
+  .filters { padding: 18px; grid-template-columns: 1fr; gap: 18px; }
+  .filters select, .filters input { font-size: var(--text-body); margin-top: 6px; }
+  .results-bar { font-size: var(--text-small); gap: 10px; align-items: flex-start; }
+  .results-bar .text-link { white-space: nowrap; font-size: var(--text-small); }
+  .detail-art { height: 390px; }
+  .size-options { gap: 8px; }
+  .size-options span { padding: 10px 15px; min-width: 0; }
+  #product-form { padding: 18px; }
+  .detail-price-row { flex-wrap: wrap; }
+  .detail-copy > .eyebrow { font-size: var(--text-label); }
+  .drawer { width: 100%; padding: 22px 18px; }
+  .cart-item { gap: 12px; }
+  .cart-image { width: 65px; height: 95px; }
+  .cart-item-bottom { flex-wrap: wrap; gap: 10px; }
+  .cart-item-bottom > strong { font-size: var(--text-body); }
+  .cart-item-title > a { font-size: 24px; }
+  .drawer-heading h2 { font-size: 27px; }
+  .drawer-heading .eyebrow { font-size: 11px; letter-spacing: 1px; }
+  .quantity-control button { width: 34px; }
+  .footer-main { gap: 25px 20px; }
+  .footer-main h3 { line-height: 1.7; }
+  .footer-main > div > a:not(.brand) { font-size: var(--text-small); }
+  .footer-note { margin-top: 8px; }
+  .footer-bottom { font-size: var(--text-label); }
+  .footer-bottom > span { overflow-wrap: anywhere; }
+  .order-review-title { flex-wrap: wrap; }
+  .order-review-title .text-link { font-size: var(--text-small); }
+  .order-line, .order-line > div > span, .summary-row { font-size: var(--text-small); }
+  .summary-total { flex-wrap: wrap; }
+  .order-history-card { flex-wrap: wrap; }
+  .order-history-card strong, .order-history-card span { font-size: var(--text-small); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .product-visual img, .product-visual:hover img { transform: none; }
+}

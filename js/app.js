@@ -48,25 +48,47 @@
       <a class="product-visual ${product.color}" href="#/product/${product.id}" aria-label="Khám phá ${product.name}">
         <span class="product-tag">${product.label}</span><img src="${product.image}" alt="Minh họa chai nước hoa ${product.name}" loading="lazy" width="500" height="600"><span class="visual-link" aria-hidden="true"><svg class="arrow-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14"/></svg></span>
       </a>
-      <div class="product-card-body"><span class="eyebrow">${Vieperful.groups[product.group]} <span class="dot">·</span> EAU DE PARFUM CONCEPT</span><div class="product-title-row"><h3><a href="#/product/${product.id}">${product.name}</a></h3><span>${money(defaultSize.price)}</span></div><p>${product.subtitle}</p><div class="product-bottom"><span>30 ml · Giá minh họa</span><button data-action="quick-add" data-id="${product.id}" aria-label="Thêm ${product.name} 30 ml vào giỏ">Thêm vào giỏ <span>+</span></button></div></div>
+      <div class="product-card-body"><span class="eyebrow">${Vieperful.groups[product.group]}</span><div class="product-title-row"><h3><a href="#/product/${product.id}">${product.name}</a></h3><span>${money(defaultSize.price)}</span></div><p>${product.subtitle}</p><span class="card-price-caption">Giá minh họa cho chai 30 ml</span><a class="card-detail-link" href="#/product/${product.id}">Xem chi tiết & chọn dung tích ${arrow}</a><div class="product-bottom"><button data-action="quick-add" data-id="${product.id}" aria-label="Thêm ${product.name} 30 ml vào giỏ">Thêm nhanh 30 ml <span>+</span></button></div></div>
     </article>`;
+  }
+  // Trang chủ được chia thành 4 phần để dễ đổi thứ tự và chỉnh nội dung.
+  function occasionSection() {
+    const occasions = [
+      { key: "work", number: "01", title: "Đi học & đi làm", group: "Thanh mát, nhẹ nhàng", text: "Một khởi đầu dễ chịu, từ lớp học đến văn phòng.", icon: '<circle cx="12" cy="12" r="4"/><path d="M12 1v3m0 16v3M1 12h3m16 0h3M4 4l2 2m12 12 2 2M4 20l2-2M18 6l2-2"/>' },
+      { key: "date", number: "02", title: "Một buổi hẹn hò", group: "Hương hoa, mềm mại", text: "Một chút dịu dàng cho những khoảnh khắc thật gần.", icon: '<path d="M12 21S2 15 2 8a5 5 0 0 1 10-1A5 5 0 0 1 22 8c0 7-10 13-10 13Z"/>' },
+      { key: "evening", number: "03", title: "Khi thành phố lên đèn", group: "Hương gỗ, trầm ấm", text: "Sâu lắng và ấm áp, để lại một dấu ấn riêng.", icon: '<path d="M20 15A9 9 0 0 1 9 3 9 9 0 1 0 20 15Z"/>' }
+    ];
+    return `<section class="occasion-section section container" id="choose-scent" aria-labelledby="occasion-title">
+      <div class="section-heading reveal"><div><span class="eyebrow">01 / BẮT ĐẦU TỪ BẠN</span><h2 id="occasion-title">Bạn chọn hương cho<br><em>khoảnh khắc nào?</em></h2></div><p class="section-intro">Chọn một dịp bên dưới.<br>Chúng tôi sẽ gợi ý những mùi hương phù hợp.</p></div>
+      <div class="occasion-grid">${occasions.map(o => `<a href="#/collection?occasion=${o.key}" class="occasion-card reveal"><div class="occasion-card-top"><span class="occasion-number">${o.number} / ${o.group}</span><svg class="occasion-icon" viewBox="0 0 24 24" aria-hidden="true">${o.icon}</svg></div><h3>${o.title}</h3><p>${o.text}</p><span class="text-link">Xem mùi hương phù hợp ${arrow}</span></a>`).join("")}</div>
+    </section>`;
+  }
+  function featuredSection() {
+    return `<section class="featured-section" aria-labelledby="featured-title"><div class="section container">
+      <div class="section-heading reveal"><div><span class="eyebrow">02 / BỘ SƯU TẬP VIEPERFUL</span><h2 id="featured-title">Ba sắc hương.<br><em>Ba cách là chính mình.</em></h2></div><div class="section-heading-side"><p>Hoa sen trong trẻo. Trà xanh dịu lành.<br>Hương gỗ trầm ấm.</p><a class="text-link" href="#/collection">Xem cả 6 mùi hương ${arrow}</a></div></div>
+      <div class="product-grid">${Vieperful.products.slice(0, 3).map(productCard).join("")}</div>
+      <p class="concept-note">Bộ sưu tập concept · Giá và tầng hương là dữ liệu minh họa. Chọn sản phẩm để xem các dung tích 10, 30 và 50 ml.</p>
+    </div></section>`;
+  }
+  function brandStorySection() {
+    return `<section class="story-band" aria-labelledby="story-title"><div class="story-image"><img src="assets/film-poster.jpg" alt="Hoa sen, chai hương hổ phách và núi đá trong ánh chiều" loading="lazy" width="1280" height="720"><span class="image-caption">MỘT CHÚT HỒN VIỆT. MỘT CHÚT RIÊNG BẠN.</span></div><div class="story-copy reveal"><span class="eyebrow">03 / CÂU CHUYỆN VIEPERFUL</span><h2 id="story-title">Từ điều thân thuộc,<br>đến một <em>dấu ấn riêng.</em></h2><p>Một đóa sen trên mặt nước. Một chén trà trong sớm mai. Một vệt nắng trên thềm gỗ.</p><p>Vieperful bắt đầu từ những điều giản dị ấy — mang vẻ đẹp thiên nhiên Việt Nam vào câu chuyện mùi hương của người trẻ.</p><a class="text-link light" href="#/about">Khám phá câu chuyện ${arrow}</a></div></section>`;
   }
   function home() {
     return `<section class="hero">
-      <div class="hero-copy"><div class="hero-eyebrow"><span class="small-line"></span> TINH THẦN VIỆT, HƯƠNG SẮC RIÊNG</div><h1>Hương Việt.<br><em>Dấu ấn riêng.</em></h1><p>Có những điều không cần nói thành lời.<br>Để mùi hương kể câu chuyện của bạn.</p><a class="button" href="#/collection">Khám phá bộ sưu tập ${arrow}</a><a class="hero-story-link" href="#/about">Câu chuyện của Vieperful <span>→</span></a><div class="hero-caption"><span class="hero-number">01 — 06</span><span>Thiên nhiên Việt Nam.<br>Cảm hứng cho từng dấu ấn.</span><img src="assets/mark.svg" alt="" width="36" height="44"></div></div>
+      <div class="hero-copy"><div class="hero-eyebrow"><span class="small-line"></span> MÙI HƯƠNG LẤY CẢM HỨNG TỪ VIỆT NAM</div><h1>Hương Việt.<br><em>Dấu ấn riêng.</em></h1><p>Một mùi hương hợp với bạn,<br>cho những khoảnh khắc rất riêng.</p><div class="hero-actions"><button class="button" data-action="choose-scent">Tìm mùi hương của bạn ${arrow}</button><a class="hero-story-link" href="#/collection">Khám phá cả bộ sưu tập <span>→</span></a></div><div class="hero-caption"><span class="hero-number">06</span><span>Mùi hương concept.<br>Một câu chuyện của riêng bạn.</span><img src="assets/mark.svg" alt="" width="36" height="44"></div></div>
       <div class="hero-media"><img class="hero-poster" src="assets/film-poster.jpg" alt="Chai Vieperful sắc hổ phách bên hoa sen và non nước lúc hoàng hôn" width="1280" height="720" fetchpriority="high"><video id="hero-video" muted loop playsinline preload="metadata" poster="assets/film-poster.jpg" aria-label="Phim cảm hứng Vieperful: nước hoa giữa non nước Việt Nam"><source src="assets/vieperful-film.mp4" type="video/mp4"></video><div class="hero-media-shade"></div><span class="media-label">THE SCENT OF YOUR OWN STORY</span><div class="media-bottom"><span>Hồn Việt trong từng<br><i>khoảnh khắc.</i></span><button id="video-toggle" class="video-toggle" aria-label="Phát video"><span aria-hidden="true">▶</span> <span>Phát video</span></button></div></div>
     </section>
-    <div class="brand-strip"><span>HOA SEN THANH KHIẾT</span><span class="strip-star">✳︎</span><span>TRÀ XANH DỊU LÀNH</span><span class="strip-star">✳︎</span><span>HƯƠNG GỖ TRẦM ẤM</span><span class="strip-star">✳︎</span><span>CẢM HỨNG TỪ THIÊN NHIÊN VIỆT</span></div>
-    <section class="section container"><div class="section-heading reveal"><div><span class="eyebrow">BỘ SƯU TẬP ĐẦU TIÊN</span><h2>Tìm thấy mình<br>trong một <em>mùi hương.</em></h2></div><div class="section-heading-side"><p>Những nốt hương thân quen.<br>Những cá tính rất riêng.</p><a class="text-link" href="#/collection">Xem tất cả mùi hương ${arrow}</a></div></div><div class="product-grid">${Vieperful.products.slice(0, 3).map(productCard).join("")}</div><p class="concept-note">Bộ sưu tập concept · Hình ảnh sản phẩm, tầng hương và giá là dữ liệu minh họa.</p></section>
-    <section class="story-band"><div class="story-image"><img src="assets/film-poster.jpg" alt="Hoa sen, chai hương hổ phách và núi đá trong ánh chiều" loading="lazy" width="1280" height="720"><span class="image-caption">MỘT CHÚT HỒN VIỆT. MỘT CHÚT RIÊNG BẠN.</span></div><div class="story-copy reveal"><span class="eyebrow">CÂU CHUYỆN VIEPERFUL</span><h2>Từ những điều<br>thân thuộc,<br>đến một <em>dấu ấn riêng.</em></h2><p>Một đóa sen trên mặt nước. Một chén trà trong sớm mai. Một vệt nắng trên thềm gỗ.</p><p>Vieperful bắt đầu từ những điều giản dị ấy — và ý tưởng mang vẻ đẹp của thiên nhiên Việt Nam vào câu chuyện mùi hương của người trẻ.</p><a class="text-link light" href="#/about">Đọc câu chuyện của chúng tôi ${arrow}</a></div></section>
-    <section class="section container"><div class="section-heading reveal"><div><span class="eyebrow">MỖI KHOẢNH KHẮC, MỘT MÙI HƯƠNG</span><h2>Hôm nay, bạn <em>là ai?</em></h2></div><p class="section-intro">Không cần một dịp đặc biệt.<br>Chỉ cần một mùi hương hợp với bạn.</p></div><div class="occasion-grid">
-      <a href="#/collection?occasion=work" class="occasion-card reveal"><span class="occasion-number">01 / MỖI NGÀY</span><span class="occasion-art sun-art" aria-hidden="true">☼</span><h3>Một khởi đầu nhẹ nhàng</h3><p>Thanh mát, tinh tế cho những ngày<br>đến lớp hay đến văn phòng.</p><span class="text-link">Tìm hương đồng hành ${arrow}</span></a>
-      <a href="#/collection?occasion=date" class="occasion-card reveal"><span class="occasion-number">02 / HẸN HÒ</span><span class="occasion-art flower-art" aria-hidden="true">✳︎</span><h3>Một chút rung động</h3><p>Dịu dàng và đầy cảm xúc,<br>cho khoảnh khắc thật gần.</p><span class="text-link">Tìm hương thương nhớ ${arrow}</span></a>
-      <a href="#/collection?occasion=evening" class="occasion-card reveal"><span class="occasion-number">03 / BUỔI TỐI</span><span class="occasion-art moon-art" aria-hidden="true">☾</span><h3>Một dấu ấn khó quên</h3><p>Ấm áp, sâu lắng khi thành phố<br>lên đèn và câu chuyện bắt đầu.</p><span class="text-link">Tìm hương của đêm ${arrow}</span></a>
-    </div></section><section class="closing-note reveal"><img src="assets/mark.svg" alt="" width="34" height="42"><p>“Một mùi hương – <em>Một dấu ấn riêng.</em>”</p><span>VIEPERFUL</span></section>`;
+    ${occasionSection()}
+    ${featuredSection()}
+    ${brandStorySection()}
+    <section class="closing-note reveal"><img src="assets/mark.svg" alt="" width="34" height="42"><p>“Một mùi hương – <em>Một dấu ấn riêng.</em>”</p><a class="text-link" href="#/guide">Chưa quen chọn nước hoa? Đọc hướng dẫn ${arrow}</a></section>`;
+  }
+  function shoppingSteps(active) {
+    const labels = ["Chọn mùi hương", "Chọn dung tích", "Đặt hàng thử"];
+    return `<nav class="shopping-steps container" aria-label="Các bước chọn mua"><ol>${labels.map((label, index) => `<li ${index + 1 === active ? 'aria-current="step"' : ''} class="${index + 1 < active ? 'is-complete' : ''}"><span class="step-circle">${index + 1 < active ? '✓' : index + 1}</span>${index === 0 && active > 1 ? `<a href="#/collection">${label}</a>` : `<span>${label}</span>`}</li>`).join("")}</ol></nav>`;
   }
   function collection(params) {
-    return `<section class="page-intro container"><div class="breadcrumb"><a href="#/">Trang chủ</a><span>/</span>Bộ sưu tập</div><span class="eyebrow">NHỮNG CÂU CHUYỆN ĐƯỢC KỂ BẰNG HƯƠNG</span><h1>Một thế giới hương.<br><em>Một phiên bản của bạn.</em></h1><p>Sáu mùi hương concept, lấy cảm hứng từ hoa cỏ và những miền ký ức Việt Nam.<br>Chọn theo cảm xúc, hoàn cảnh hoặc một chút tò mò.</p><span class="demo-label">Sản phẩm & giá minh họa · Không bán hàng thật</span></section>
+    return `<section class="page-intro container"><div class="breadcrumb"><a href="#/">Trang chủ</a><span>/</span>Bộ sưu tập</div><span class="eyebrow">06 MÙI HƯƠNG / CẢM HỨNG VIỆT NAM</span><h1>Tìm mùi hương <em>của bạn.</em></h1><p>Chọn nhóm hương, dịp sử dụng hoặc sắp xếp theo giá để tìm dấu ấn phù hợp.</p><span class="demo-label">Sản phẩm & giá minh họa · Không bán hàng thật</span></section>
     <section class="container collection-section"><form class="filters" id="filter-form"><label>Nhóm hương<select name="group" id="filter-group"><option value="">Tất cả nhóm hương</option>${Object.entries(Vieperful.groups).map(([k,v]) => `<option value="${k}">${v}</option>`).join("")}</select></label><label>Dịp sử dụng<select name="occasion" id="filter-occasion"><option value="">Mọi khoảnh khắc</option>${Object.entries(Vieperful.occasions).map(([k,v]) => `<option value="${k}">${v}</option>`).join("")}</select></label><label>Sắp xếp<select name="sort" id="filter-sort"><option value="">Gợi ý từ Vieperful</option><option value="asc">Giá 30 ml: thấp đến cao</option><option value="desc">Giá 30 ml: cao đến thấp</option></select></label><label class="filter-search">Tìm mùi hương<input type="search" id="filter-q" name="q" placeholder="Tên, nốt hương…" maxlength="80" value="${escapeHTML(params.get("q") || "")}"></label></form>
     <div class="results-bar"><span id="result-count" role="status"></span><button class="text-link" data-action="reset-filters">Xóa bộ lọc <span>↻</span></button></div><div class="product-grid" id="collection-grid"></div><p class="concept-note">Tầng hương là concept đề xuất, chưa phải thông số sản phẩm được kiểm chứng. Hình chai là minh họa thiết kế.</p></section>`;
   }
@@ -194,6 +216,8 @@
     const title = path === "/" ? "Một mùi hương, một dấu ấn riêng" : path === "/collection" ? "Bộ sưu tập" : isProduct ? (Shop.product(path.split("/")[2])?.name || "Không tìm thấy") : path === "/about" ? "Câu chuyện" : path === "/guide" ? "Góc hương thơm" : path === "/checkout" ? "Đặt hàng thử" : "Đơn hàng thử";
     document.title = `${title} — Vieperful`;
     main.innerHTML = path === "/" ? home() : path === "/collection" ? collection(params) : isProduct ? detail(path.split("/")[2]) : path === "/about" ? about() : path === "/guide" ? guide() : path === "/checkout" ? checkout() : path === "/orders" ? ordersPage() : path.startsWith("/order/") ? confirmation(path.split("/")[2]) : notFound();
+    const step = path === "/collection" ? 1 : isProduct && Shop.product(path.split("/")[2]) ? 2 : path === "/checkout" && Shop.count() ? 3 : 0;
+    if (step) main.insertAdjacentHTML("afterbegin", shoppingSteps(step));
     main.dataset.route = path;
     document.querySelectorAll("[data-nav]").forEach(a => {
       const active = a.dataset.nav === (path === "/" ? "home" : isProduct ? "collection" : path.slice(1));
@@ -227,6 +251,11 @@
       return;
     }
     const { action, id, ml, amount } = target.dataset;
+    if (action === "choose-scent") {
+      const section = document.querySelector("#choose-scent");
+      section?.scrollIntoView({ behavior: reducedMotion.matches ? "instant" : "smooth" });
+      section?.querySelector("a")?.focus({ preventScroll: true });
+    }
     if (action === "cart") { renderCart(); openDialog("cart-dialog"); }
     if (action === "menu") openDialog("menu-dialog");
     if (action === "search") openDialog("search-dialog");
