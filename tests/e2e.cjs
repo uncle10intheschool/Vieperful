@@ -46,6 +46,12 @@ async function run() {
   await check("Trang chủ, ảnh, phông chữ và chế độ giảm chuyển động", async () => {
     await go("/");
     await page.evaluate(() => document.fonts.ready);
+    const featuredImages = page.locator(".product-card .product-visual img");
+    for (let index = 0; index < await featuredImages.count(); index += 1) {
+      const image = featuredImages.nth(index);
+      await image.scrollIntoViewIfNeeded();
+      await image.evaluate(element => element.decode());
+    }
     const storyImage = page.locator(".story-image img");
     await storyImage.scrollIntoViewIfNeeded();
     await storyImage.evaluate(image => image.decode());
@@ -267,6 +273,15 @@ async function run() {
     await go("/");
     assert.equal(await page.locator(".product-card:visible").count(), 3);
     assert.ok(await page.locator(".product-card-body > p").first().evaluate(el => parseFloat(getComputedStyle(el).fontSize) >= 16));
+    const featuredImages = page.locator(".product-card .product-visual img");
+    for (let index = 0; index < await featuredImages.count(); index += 1) {
+      const image = featuredImages.nth(index);
+      await image.scrollIntoViewIfNeeded();
+      await image.evaluate(element => element.decode());
+    }
+    await page.locator(".story-image img").scrollIntoViewIfNeeded();
+    await page.locator(".story-image img").evaluate(image => image.decode());
+    await page.evaluate(() => scrollTo(0, 0));
     await page.screenshot({ path: path.join(root, "test-results/home-mobile.png"), fullPage: true });
     await page.getByRole("button", { name: "Mở menu", exact: true }).click();
     await page.locator("#menu-dialog").getByRole("link", { name: /Bộ sưu tập/ }).click();
