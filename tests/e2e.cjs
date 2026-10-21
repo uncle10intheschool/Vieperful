@@ -46,12 +46,12 @@ async function run() {
   await check("Trang chủ, ảnh, phông chữ và chế độ giảm chuyển động", async () => {
     await go("/");
     await page.evaluate(() => document.fonts.ready);
-    const featuredImages = page.locator(".product-card .product-visual img");
-    for (let index = 0; index < await featuredImages.count(); index += 1) {
-      const image = featuredImages.nth(index);
-      await image.scrollIntoViewIfNeeded();
-      await image.evaluate(element => element.decode());
-    }
+    const sceneImage = page.locator("#scent-image");
+    await sceneImage.evaluate(element => element.decode());
+    assert.equal(await page.locator("#scent-name").innerText(), "Sen Hạ");
+    assert.equal(await page.locator(".scent-tab").count(), 6);
+    assert.equal(await page.locator(".scent-tab[aria-selected=true]").getAttribute("data-id"), "sen-ha");
+    assert.equal(await page.locator(".product-card").count(), 0);
     const storyImage = page.locator(".story-image img");
     await storyImage.scrollIntoViewIfNeeded();
     await storyImage.evaluate(image => image.decode());
@@ -59,27 +59,38 @@ async function run() {
     const productImages = await page.evaluate(() => window.Vieperful.products.map(product => product.image));
     assert.equal(productImages.length, 6);
     assert.ok(productImages.every(src => src.endsWith(".webp")));
-    const galleryImages = page.locator(".product-gallery-tile img");
-    assert.equal(await galleryImages.count(), 6);
-    for (let index = 0; index < await galleryImages.count(); index += 1) {
-      const image = galleryImages.nth(index);
-      await image.scrollIntoViewIfNeeded();
-      await image.evaluate(element => element.decode());
-    }
+    await page.locator(".scent-tab").last().focus();
+    await page.keyboard.press("End");
+    assert.equal(await page.locator("#scent-name").innerText(), "Nắng Phù Sa");
+    assert.equal(await page.locator("#scent-detail-link").getAttribute("href"), "#/product/nang-phu-sa");
+    await page.locator('.scent-tab[data-id="sen-ha"]').focus();
+    await page.keyboard.press("Enter");
+    assert.equal(await page.locator(".scent-tab[aria-selected=true]").getAttribute("data-id"), "sen-ha");
     await page.locator(".site-footer").scrollIntoViewIfNeeded();
     await page.waitForTimeout(150);
     const broken = await page.evaluate(() => [...document.images].filter(i => !i.complete || !i.naturalWidth).map(i => i.src));
     assert.deepEqual(broken, []);
     assert.equal(await page.locator("#hero-video").evaluate(v => v.paused), true);
     assert.equal(await page.locator("#hero-video").evaluate(v => v.muted), true);
-    assert.equal(await page.locator(".product-card").count(), 3);
     await page.evaluate(() => scrollTo(0, 0));
     fs.mkdirSync(path.join(root, "test-results"), { recursive: true });
     await page.screenshot({ path: path.join(root, "test-results/home-desktop.png"), fullPage: true });
   });
+  await check("Cảnh sáu mùi đồng bộ ảnh, thông tin, giá, trang chi tiết và giỏ", async () => {
+    await go("/");
+    await page.locator('.scent-tab[data-id="suong-rung"]').click();
+    assert.equal(await page.locator("#scent-name").innerText(), "Sương Rừng");
+    assert.equal(await page.locator("#scent-image").getAttribute("src"), "assets/suong-rung.webp");
+    assert.match(await page.locator("#scent-price").innerText(), /179\.000/);
+    assert.equal(await page.locator("#scent-detail-link").getAttribute("href"), "#/product/suong-rung");
+    await page.getByRole("button", { name: "Thêm Sương Rừng 30 ml vào giỏ", exact: true }).click();
+    assert.deepEqual(await cartState(), [{ id: "suong-rung", ml: 30, quantity: 1 }]);
+    await page.getByRole("button", { name: "Xóa Sương Rừng 30 ml", exact: true }).click();
+    await closeCart();
+  });
   await check("Trắc nghiệm 3 bước gợi ý theo dịp, nhóm hương và ngân sách", async () => {
     assert.ok(await page.locator(".hero-copy > p").evaluate(el => parseFloat(getComputedStyle(el).fontSize) >= 18));
-    await page.getByRole("button", { name: "Tìm mùi hương của bạn" }).click();
+    await page.getByRole("button", { name: "Tìm mùi phù hợp" }).click();
     assert.equal(await page.locator("#quiz-dialog").evaluate(d => d.open), true);
     await page.locator("#quiz-form label").filter({ hasText: "Đi học & đi làm" }).click();
     await page.locator("#quiz-form label").filter({ hasText: "Thanh mát" }).click();
@@ -95,15 +106,15 @@ async function run() {
     await page.locator("#filter-occasion").waitFor();
     assert.equal(await page.locator("#filter-occasion").inputValue(), "work");
     assert.equal(await page.locator(".product-card").count(), 3);
-    assert.match(await page.locator('.shopping-steps [aria-current="step"]').innerText(), /Chọn mùi hương/);
-    await page.locator(".card-detail-link").first().click();
+    assert.equal(await page.locator(".shopping-steps").count(), 0);
+    await page.locator(".product-title-row a").first().click();
     await page.locator("#product-form").waitFor();
-    assert.match(await page.locator('.shopping-steps [aria-current="step"]').innerText(), /Chọn dung tích/);
-    assert.ok(await page.locator(".detail-copy > p").last().evaluate(el => parseFloat(getComputedStyle(el).fontSize) >= 14));
+    assert.equal(await page.locator(".shopping-steps").count(), 0);
+    assert.ok(await page.locator(".detail-copy > p:not(.detail-subtitle):not(.small-note)").first().evaluate(el => parseFloat(getComputedStyle(el).fontSize) >= 15));
   });
   await check("Xem nhanh đổi dung tích/giá và thêm đúng lựa chọn vào giỏ", async () => {
     await go("/collection");
-    await page.getByRole("button", { name: "Xem nhanh", exact: true }).first().click();
+    await page.getByRole("button", { name: "Xem nhanh Sen Hạ", exact: true }).first().click();
     assert.equal(await page.locator("#quick-view-dialog").evaluate(d => d.open), true);
     await page.locator('#quick-view-form input[name="size"][value="50"]').check();
     assert.match(await page.locator("#quick-view-price").innerText(), /689\.000/);
@@ -136,7 +147,7 @@ async function run() {
   await check("Bộ sưu tập: lọc nhóm hương và dịp sử dụng", async () => {
     await go("/collection");
     assert.equal(await page.locator(".product-card").count(), 6);
-    await page.locator("#filter-group").selectOption("floral");
+    await page.locator('#filter-form input[name="group"][value="floral"]').check();
     await page.locator("#filter-occasion").selectOption("date");
     assert.equal(await page.locator(".product-card").count(), 2);
     assert.match(await page.locator("#collection-grid").innerText(), /Sen Hạ/);
@@ -277,21 +288,13 @@ async function run() {
   });
   await check("Điện thoại 390 px: menu, bộ lọc, giỏ và bố cục", async () => {
     await page.setViewportSize({ width: 390, height: 844 });
+    await page.evaluate(() => { localStorage.clear(); sessionStorage.clear(); });
+    await page.reload();
     await go("/");
-    assert.equal(await page.locator(".product-card:visible").count(), 3);
-    assert.ok(await page.locator(".product-card-body > p").first().evaluate(el => parseFloat(getComputedStyle(el).fontSize) >= 16));
-    const featuredImages = page.locator(".product-card .product-visual img");
-    for (let index = 0; index < await featuredImages.count(); index += 1) {
-      const image = featuredImages.nth(index);
-      await image.scrollIntoViewIfNeeded();
-      await image.evaluate(element => element.decode());
-    }
-    const galleryImages = page.locator(".product-gallery-tile img");
-    for (let index = 0; index < await galleryImages.count(); index += 1) {
-      const image = galleryImages.nth(index);
-      await image.scrollIntoViewIfNeeded();
-      await image.evaluate(element => element.decode());
-    }
+    assert.equal(await page.locator(".product-card").count(), 0);
+    assert.equal(await page.locator(".scent-tab").count(), 6);
+    assert.ok(await page.locator(".hero-copy > p").evaluate(el => parseFloat(getComputedStyle(el).fontSize) >= 16));
+    await page.locator("#scent-image").evaluate(image => image.decode());
     await page.locator(".story-image img").scrollIntoViewIfNeeded();
     await page.locator(".story-image img").evaluate(image => image.decode());
     await page.evaluate(() => scrollTo(0, 0));
@@ -299,13 +302,15 @@ async function run() {
     await page.getByRole("button", { name: "Mở menu", exact: true }).click();
     await page.locator("#menu-dialog").getByRole("link", { name: /Bộ sưu tập/ }).click();
     assert.equal(await page.locator("#menu-dialog").evaluate(d => d.open), false);
-    await page.locator("#filter-group").selectOption("woody");
+    await page.locator('#filter-form input[name="group"][value="woody"]').check();
     assert.equal(await page.locator(".product-card").count(), 2);
     await page.getByRole("button", { name: "Thêm Mộc Trầm 30 ml vào giỏ" }).click();
     await openCart();
     assert.equal(await page.locator(".cart-item").count(), 1);
     await page.screenshot({ path: path.join(root, "test-results/cart-mobile.png") });
     await closeCart();
+    await page.evaluate(() => { localStorage.clear(); sessionStorage.clear(); });
+    await page.reload();
     for (const route of ["/", "/collection", "/product/nhai-dem", "/about", "/guide", "/checkout", "/orders"]) {
       await go(route);
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, `Tràn ngang: ${route}`);
@@ -319,6 +324,20 @@ async function run() {
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, `Tràn ngang 320px: ${route}`);
     }
   });
+  await check("Máy tính bảng 768 px: hai cột sản phẩm và không tràn ngang", async () => {
+    await page.setViewportSize({ width: 768, height: 1024 });
+    await page.evaluate(() => { localStorage.clear(); sessionStorage.clear(); });
+    await page.reload();
+    for (const route of ["/", "/collection", "/product/suong-rung", "/checkout"]) {
+      await go(route);
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, `Tràn ngang: ${route}`);
+      if (route === "/collection") {
+        const columns = await page.locator("#collection-grid").evaluate(element => getComputedStyle(element).gridTemplateColumns.split(" ").length);
+        assert.equal(columns, 2);
+        await page.screenshot({ path: path.join(root, "test-results/collection-tablet.png"), fullPage: true });
+      }
+    }
+  });
   await check("Bàn phím: focus giữ trong giỏ hàng", async () => {
     await openCart();
     for (let i = 0; i < 18; i++) {
@@ -327,17 +346,20 @@ async function run() {
     }
     await closeCart();
   });
-  await check("Bàn phím giữ focus trong trắc nghiệm; thư viện thay hoàn toàn cảnh vector", async () => {
+  await check("Bàn phím giữ focus trong trắc nghiệm và điều hướng được cảnh sáu mùi", async () => {
     await go("/");
-    await page.getByRole("button", { name: "Tìm mùi hương của bạn" }).click();
+    await page.getByRole("button", { name: "Tìm mùi phù hợp" }).click();
     for (let i = 0; i < 20; i++) {
       await page.keyboard.press("Tab");
       assert.equal(await page.evaluate(() => !!document.activeElement.closest("#quiz-dialog")), true);
     }
-    const gallery = page.locator(".product-gallery-tile");
-    assert.deepEqual(await gallery.evaluateAll(tiles => tiles.map(tile => tile.dataset.productId)), ["suong-rung", "sen-ha", "tra-mien", "moc-tram", "nhai-dem", "nang-phu-sa"]);
-    assert.equal(await page.locator(".product-gallery img[src$='.svg'], .forest-layer, .forest-bottle, .forest-stage").count(), 0);
     await closeCart();
+    await page.keyboard.press("Escape");
+    await page.locator('.scent-tab[data-id="sen-ha"]').focus();
+    await page.keyboard.press("ArrowRight");
+    assert.equal(await page.locator(".scent-tab[aria-selected=true]").getAttribute("data-id"), "tra-mien");
+    assert.equal(await page.locator("#scent-name").innerText(), "Trà Miên");
+    assert.equal(await page.locator(".forest-layer, .forest-bottle, .forest-stage").count(), 0);
   });
   await check("Video phát/tạm dừng, tắt tiếng và phản hồi giảm chuyển động", async () => {
     await page.setViewportSize({ width: 1440, height: 1000 });

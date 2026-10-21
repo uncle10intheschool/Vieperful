@@ -46,47 +46,44 @@
   function productCard(product, index = 0) {
     const defaultSize = product.sizes.find(s => s.ml === 30);
     return `<article class="product-card reveal" style="--delay:${index % 3 * 70}ms">
-      <a class="product-visual ${product.color}" href="#/product/${product.id}" aria-label="Khám phá ${product.name}">
-        <span class="product-tag">${product.label}</span><img src="${product.image}" alt="Minh họa chai nước hoa ${product.name}" loading="lazy" width="500" height="600"><span class="visual-link" aria-hidden="true"><svg class="arrow-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14"/></svg></span>
-      </a>
-      <div class="product-card-body"><span class="eyebrow">${Vieperful.groups[product.group]}</span><div class="product-title-row"><h3><a href="#/product/${product.id}">${product.name}</a></h3><span>${money(defaultSize.price)}</span></div><p>${product.subtitle}</p><span class="card-price-caption">Giá minh họa cho chai 30 ml</span><div class="product-card-links"><a class="card-detail-link" href="#/product/${product.id}">Chọn dung tích ${arrow}</a><button class="card-detail-link" data-action="quick-view" data-id="${product.id}">Xem nhanh <span aria-hidden="true">⌕</span></button></div><button class="compare-toggle" data-action="compare-toggle" data-id="${product.id}" aria-pressed="${compareIds.includes(product.id)}"><span aria-hidden="true">${compareIds.includes(product.id) ? "✓" : "+"}</span> ${compareIds.includes(product.id) ? "Đang so sánh" : "Thêm vào so sánh"}</button><div class="product-bottom"><button data-action="quick-add" data-id="${product.id}" aria-label="Thêm ${product.name} 30 ml vào giỏ">Thêm nhanh 30 ml <span>+</span></button></div></div>
+      <div class="product-card-media"><a class="product-visual ${product.color}" href="#/product/${product.id}" aria-label="Khám phá ${product.name}"><span class="product-tag">${product.label}</span><img src="${product.image}" alt="Minh họa chai nước hoa ${product.name}" loading="lazy" width="500" height="600"></a><button class="quick-view-trigger" data-action="quick-view" data-id="${product.id}" aria-label="Xem nhanh ${product.name}">Xem nhanh</button></div>
+      <div class="product-card-body"><span class="product-family">${Vieperful.groups[product.group]}</span><div class="product-title-row"><h3><a href="#/product/${product.id}">${product.name}</a></h3><span>${money(defaultSize.price)}</span></div><span class="card-price-caption">30 ml · Giá minh họa</span><p>${product.subtitle}</p><div class="product-card-purchase"><button class="button card-add" data-action="quick-add" data-id="${product.id}" aria-label="Thêm ${product.name} 30 ml vào giỏ">Thêm vào giỏ</button><button class="compare-toggle" data-action="compare-toggle" data-id="${product.id}" aria-pressed="${compareIds.includes(product.id)}"><span aria-hidden="true">${compareIds.includes(product.id) ? "✓" : "+"}</span> ${compareIds.includes(product.id) ? "Đang so sánh" : "So sánh"}</button></div></div>
     </article>`;
   }
   // Trang chủ được chia thành 4 phần để dễ đổi thứ tự và chỉnh nội dung.
   function occasionSection() {
     const occasions = [
-      { key: "work", number: "01", title: "Đi học & đi làm", group: "Thanh mát, nhẹ nhàng", text: "Một khởi đầu dễ chịu, từ lớp học đến văn phòng.", icon: '<circle cx="12" cy="12" r="4"/><path d="M12 1v3m0 16v3M1 12h3m16 0h3M4 4l2 2m12 12 2 2M4 20l2-2M18 6l2-2"/>' },
-      { key: "date", number: "02", title: "Một buổi hẹn hò", group: "Hương hoa, mềm mại", text: "Một chút dịu dàng cho những khoảnh khắc thật gần.", icon: '<path d="M12 21S2 15 2 8a5 5 0 0 1 10-1A5 5 0 0 1 22 8c0 7-10 13-10 13Z"/>' },
-      { key: "evening", number: "03", title: "Khi thành phố lên đèn", group: "Hương gỗ, trầm ấm", text: "Sâu lắng và ấm áp, để lại một dấu ấn riêng.", icon: '<path d="M20 15A9 9 0 0 1 9 3 9 9 0 1 0 20 15Z"/>' }
+      { key: "work", title: "Đi học & đi làm", group: "Thanh mát, nhẹ nhàng", text: "Một khởi đầu dễ chịu, từ lớp học đến văn phòng.", icon: '<circle cx="12" cy="12" r="4"/><path d="M12 1v3m0 16v3M1 12h3m16 0h3M4 4l2 2m12 12 2 2M4 20l2-2M18 6l2-2"/>' },
+      { key: "date", title: "Một buổi hẹn hò", group: "Hương hoa, mềm mại", text: "Một chút dịu dàng cho những khoảnh khắc thật gần.", icon: '<path d="M12 21S2 15 2 8a5 5 0 0 1 10-1A5 5 0 0 1 22 8c0 7-10 13-10 13Z"/>' },
+      { key: "evening", title: "Khi thành phố lên đèn", group: "Hương gỗ, trầm ấm", text: "Sâu lắng và ấm áp, để lại một dấu ấn riêng.", icon: '<path d="M20 15A9 9 0 0 1 9 3 9 9 0 1 0 20 15Z"/>' }
     ];
     return `<section class="occasion-section section container" id="choose-scent" aria-labelledby="occasion-title">
-      <div class="section-heading reveal"><div><span class="eyebrow">02 / BẮT ĐẦU TỪ BẠN</span><h2 id="occasion-title">Bạn chọn hương cho<br><em>khoảnh khắc nào?</em></h2></div><div class="section-heading-side"><p class="section-intro">Chọn một dịp bên dưới hoặc trả lời ba câu hỏi để xem gợi ý riêng.</p><button class="text-link" data-action="quiz-open">Làm trắc nghiệm chọn hương ${arrow}</button></div></div>
-      <div class="occasion-grid">${occasions.map(o => `<a href="#/collection?occasion=${o.key}" class="occasion-card reveal"><div class="occasion-card-top"><span class="occasion-number">${o.number} / ${o.group}</span><svg class="occasion-icon" viewBox="0 0 24 24" aria-hidden="true">${o.icon}</svg></div><h3>${o.title}</h3><p>${o.text}</p><span class="text-link">Xem mùi hương phù hợp ${arrow}</span></a>`).join("")}</div>
+      <div class="section-heading reveal"><div><span class="eyebrow">TÌM MÙI HƯƠNG CỦA BẠN</span><h2 id="occasion-title">Hương thơm cho<br>từng khoảnh khắc.</h2></div><div class="section-heading-side"><p class="section-intro">Chọn một dịp bên dưới hoặc trả lời ba câu hỏi để xem gợi ý riêng.</p><button class="text-link" data-action="quiz-open">Làm trắc nghiệm chọn hương ${arrow}</button></div></div>
+      <div class="occasion-grid">${occasions.map(o => `<a href="#/collection?occasion=${o.key}" class="occasion-card reveal"><div class="occasion-card-top"><span class="occasion-number">${o.group}</span><svg class="occasion-icon" viewBox="0 0 24 24" aria-hidden="true">${o.icon}</svg></div><h3>${o.title}</h3><p>${o.text}</p><span class="text-link">Xem mùi hương phù hợp ${arrow}</span></a>`).join("")}</div>
     </section>`;
   }
-  function featuredSection() {
-    return `<section class="featured-section" aria-labelledby="featured-title"><div class="section container">
-      <div class="section-heading reveal"><div><span class="eyebrow">03 / BỘ SƯU TẬP VIEPERFUL</span><h2 id="featured-title">Ba sắc hương.<br><em>Ba cách là chính mình.</em></h2></div><div class="section-heading-side"><p>Hoa sen trong trẻo. Trà xanh dịu lành.<br>Hương gỗ trầm ấm.</p><a class="text-link" href="#/collection">Xem cả 6 mùi hương ${arrow}</a></div></div>
-      <div class="product-grid">${Vieperful.products.slice(0, 3).map(productCard).join("")}</div>
-      <p class="concept-note">Bộ sưu tập concept · Giá và tầng hương là dữ liệu minh họa. Chọn sản phẩm để xem các dung tích 10, 30 và 50 ml.</p>
+  function scentExperience() {
+    const initial = Vieperful.products[0];
+    const firstSize = initial.sizes[0];
+    return `<section class="scent-experience" aria-labelledby="scent-section-title" data-tone="${initial.color}"><div class="scent-experience-inner container">
+      <div class="scent-heading"><div><span class="eyebrow">BỘ SƯU TẬP VIEPERFUL</span><h2 id="scent-section-title">Sáu miền hương Việt</h2></div><p>Mỗi concept mở ra một lát cắt thiên nhiên Việt Nam. Chọn một sắc hương để khám phá.</p></div>
+      <div class="scent-feature"><div class="scent-scene" data-tone="${initial.color}"><img id="scent-image" src="${initial.image}" alt="Ảnh concept chai nước hoa ${initial.name}" width="1254" height="1254"><span class="scene-index">01 <i>/ 06</i></span><span class="scene-caption">${initial.label}</span></div>
+        <div class="scent-copy" id="scent-current" role="tabpanel" aria-labelledby="scent-tab-${initial.id}" aria-live="polite" aria-atomic="true"><span class="scent-family">${Vieperful.groups[initial.group]} · CONCEPT VIEPERFUL</span><h3 id="scent-name">${initial.name}</h3><p class="scent-subtitle">${initial.subtitle}</p><p class="scent-description">${initial.description}</p><div class="scent-price"><span>Từ</span><strong id="scent-price">${money(firstSize.price)}</strong><span>/ ${firstSize.ml} ml · Giá minh họa</span></div><div class="scent-actions"><a class="button" id="scent-detail-link" href="#/product/${initial.id}">Khám phá mùi hương</a><button class="text-link" data-action="scent-add" data-id="${initial.id}" aria-label="Thêm ${initial.name} 30 ml vào giỏ">Thêm 30 ml vào giỏ <span aria-hidden="true">+</span></button></div></div>
+      </div>
+      <div class="scent-selector" role="tablist" aria-label="Chọn một trong sáu mùi hương">${Vieperful.products.map((product,index) => `<button class="scent-tab" type="button" role="tab" id="scent-tab-${product.id}" aria-controls="scent-current" aria-selected="${index === 0}" tabindex="${index === 0 ? "0" : "-1"}" data-action="scent-select" data-id="${product.id}"><span class="scent-tab-number">0${index+1}</span><span class="scent-tab-name">${product.name}</span><span class="scent-tab-family">${Vieperful.groups[product.group]}</span></button>`).join("")}</div>
+      <p class="scent-note">Hình ảnh, giá, dung tích và tầng hương là dữ liệu concept minh họa cho dự án môn học.</p>
     </div></section>`;
   }
-  function productImageFeatureSection() {
-    const galleryProducts = ["suong-rung", "sen-ha", "tra-mien", "moc-tram", "nhai-dem", "nang-phu-sa"]
-      .map(id => Vieperful.products.find(product => product.id === id));
-    return `<section class="product-gallery-feature" aria-labelledby="product-gallery-title"><div class="product-gallery-copy reveal"><span class="eyebrow">01 / BỘ SƯU TẬP VIEPERFUL</span><h2 id="product-gallery-title">Sáu mùi hương.<br><em>Sáu câu chuyện.</em></h2><p>Từ sắc sen, trà xanh đến hương gỗ ấm, mỗi concept gợi một lát cắt thiên nhiên Việt Nam và một cảm xúc riêng.</p><a class="button button-light" href="#/collection">Khám phá cả bộ sưu tập ${arrow}</a><small>Ảnh concept sản phẩm · Dữ liệu minh họa dự án môn học</small></div><div class="product-gallery" aria-label="Ảnh sáu sản phẩm concept Vieperful">${galleryProducts.map(product => `<a class="product-gallery-tile" data-product-id="${product.id}" href="#/product/${product.id}" aria-label="Xem sản phẩm ${product.name}"><img src="${product.image}" alt="Ảnh concept chai nước hoa ${product.name}" loading="lazy" width="1254" height="1254"><span>${product.name}</span></a>`).join("")}</div></section>`;
-  }
   function brandStorySection() {
-    return `<section class="story-band" aria-labelledby="story-title"><div class="story-image"><img src="assets/vieperful-story.webp" alt="Chai Vieperful bên hồ sen giữa núi rừng trong sương" loading="lazy" width="1672" height="941"><span class="image-caption">MỘT CHÚT HỒN VIỆT. MỘT CHÚT RIÊNG BẠN.</span></div><div class="story-copy reveal"><span class="eyebrow">04 / CÂU CHUYỆN VIEPERFUL</span><h2 id="story-title">Từ điều thân thuộc,<br>đến một <em>dấu ấn riêng.</em></h2><p>Một đóa sen trên mặt nước. Một chén trà trong sớm mai. Một vệt nắng trên thềm gỗ.</p><p>Vieperful bắt đầu từ những điều giản dị ấy — mang vẻ đẹp thiên nhiên Việt Nam vào câu chuyện mùi hương của người trẻ.</p><a class="text-link light" href="#/about">Khám phá câu chuyện ${arrow}</a></div></section>`;
+    return `<section class="story-band" aria-labelledby="story-title"><div class="story-image"><img src="assets/vieperful-story.webp" alt="Chai Vieperful bên hồ sen giữa núi rừng trong sương" loading="lazy" width="1672" height="941"><span class="image-caption">MỘT CHÚT HỒN VIỆT. MỘT CHÚT RIÊNG BẠN.</span></div><div class="story-copy reveal"><span class="eyebrow">CÂU CHUYỆN VIEPERFUL</span><h2 id="story-title">Từ điều thân thuộc,<br>đến dấu ấn riêng.</h2><p>Một đóa sen trên mặt nước. Một chén trà trong sớm mai. Một vệt nắng trên thềm gỗ.</p><p>Vieperful bắt đầu từ những điều giản dị ấy — mang vẻ đẹp thiên nhiên Việt Nam vào câu chuyện mùi hương của người trẻ.</p><a class="text-link light" href="#/about">Khám phá câu chuyện ${arrow}</a></div></section>`;
   }
   function home() {
     return `<section class="hero">
-      <div class="hero-copy"><div class="hero-eyebrow"><span class="small-line"></span> MÙI HƯƠNG LẤY CẢM HỨNG TỪ VIỆT NAM</div><h1>Hương Việt.<br><em>Dấu ấn riêng.</em></h1><p>Một mùi hương hợp với bạn,<br>cho những khoảnh khắc rất riêng.</p><div class="hero-actions"><button class="button" data-action="quiz-open">Tìm mùi hương của bạn ${arrow}</button><a class="hero-story-link" href="#/collection">Khám phá cả bộ sưu tập <span>→</span></a></div><div class="hero-caption"><span class="hero-number">06</span><span>Mùi hương concept.<br>Một câu chuyện của riêng bạn.</span><img src="assets/mark.svg" alt="" width="36" height="44"></div></div>
+      <div class="hero-copy"><div class="hero-eyebrow"><span class="small-line"></span> MÙI HƯƠNG LẤY CẢM HỨNG TỪ VIỆT NAM</div><h1>Hương Việt.<br><em>Dấu ấn riêng.</em></h1><p>Một mùi hương hợp với bạn,<br>cho những khoảnh khắc rất riêng.</p><div class="hero-actions"><a class="button" href="#/collection">Khám phá mùi hương ${arrow}</a><button class="hero-story-link" data-action="quiz-open">Tìm mùi phù hợp <span>↗</span></button></div><div class="hero-caption"><span class="hero-number">06</span><span>Mùi hương concept.<br>Một câu chuyện của riêng bạn.</span><img src="assets/mark.svg" alt="" width="36" height="44"></div></div>
       <div class="hero-media"><img class="hero-poster" src="assets/film-poster-hd.jpg" alt="Chai Vieperful sắc hổ phách bên hoa sen và non nước lúc hoàng hôn" width="1920" height="1080" fetchpriority="high"><video id="hero-video" muted loop playsinline preload="metadata" poster="assets/film-poster-hd.jpg" aria-label="Phim cảm hứng Vieperful: nước hoa giữa non nước Việt Nam"><source src="assets/vieperful-film-hd.mp4" type="video/mp4"></video><div class="hero-media-shade"></div><span class="media-label">THE SCENT OF YOUR OWN STORY</span><div class="media-bottom"><span>Hồn Việt trong từng<br><i>khoảnh khắc.</i></span><button id="video-toggle" class="video-toggle" aria-label="Phát video"><span aria-hidden="true">▶</span> <span>Phát video</span></button></div></div>
     </section>
-    ${productImageFeatureSection()}
+    ${scentExperience()}
     ${occasionSection()}
-    ${featuredSection()}
     ${brandStorySection()}
     <section class="closing-note reveal"><img src="assets/mark.svg" alt="" width="34" height="42"><p>“Một mùi hương – <em>Một dấu ấn riêng.</em>”</p><a class="text-link" href="#/guide">Chưa quen chọn nước hoa? Đọc hướng dẫn ${arrow}</a></section>`;
   }
@@ -95,9 +92,9 @@
     return `<nav class="shopping-steps container" aria-label="Các bước chọn mua"><ol>${labels.map((label, index) => `<li ${index + 1 === active ? 'aria-current="step"' : ''} class="${index + 1 < active ? 'is-complete' : ''}"><span class="step-circle">${index + 1 < active ? '✓' : index + 1}</span>${index === 0 && active > 1 ? `<a href="#/collection">${label}</a>` : `<span>${label}</span>`}</li>`).join("")}</ol></nav>`;
   }
   function collection(params) {
-    return `<section class="page-intro container"><div class="breadcrumb"><a href="#/">Trang chủ</a><span>/</span>Bộ sưu tập</div><span class="eyebrow">06 MÙI HƯƠNG / CẢM HỨNG VIỆT NAM</span><h1>Tìm mùi hương <em>của bạn.</em></h1><p>Chọn nhóm hương, dịp sử dụng hoặc sắp xếp theo giá để tìm dấu ấn phù hợp.</p><span class="demo-label">Sản phẩm & giá minh họa · Không bán hàng thật</span></section>
-    <section class="container collection-section"><form class="filters" id="filter-form"><label>Nhóm hương<select name="group" id="filter-group"><option value="">Tất cả nhóm hương</option>${Object.entries(Vieperful.groups).map(([k,v]) => `<option value="${k}">${v}</option>`).join("")}</select></label><label>Dịp sử dụng<select name="occasion" id="filter-occasion"><option value="">Mọi khoảnh khắc</option>${Object.entries(Vieperful.occasions).map(([k,v]) => `<option value="${k}">${v}</option>`).join("")}</select></label><label>Sắp xếp<select name="sort" id="filter-sort"><option value="">Gợi ý từ Vieperful</option><option value="asc">Giá 30 ml: thấp đến cao</option><option value="desc">Giá 30 ml: cao đến thấp</option></select></label><label class="filter-search">Tìm mùi hương<input type="search" id="filter-q" name="q" placeholder="Tên, nốt hương…" maxlength="80" value="${escapeHTML(params.get("q") || "")}"></label></form>
-    <div class="results-bar"><span id="result-count" role="status"></span><button class="text-link" data-action="reset-filters">Xóa bộ lọc <span>↻</span></button></div><div class="product-grid" id="collection-grid"></div><p class="concept-note">Tầng hương là concept đề xuất, chưa phải thông số sản phẩm được kiểm chứng. Hình chai là minh họa thiết kế.</p></section>`;
+    return `<section class="page-intro collection-intro container"><div class="breadcrumb"><a href="#/">Trang chủ</a><span>/</span>Bộ sưu tập</div><div class="collection-heading"><div><span class="eyebrow">BỘ SƯU TẬP VIEPERFUL</span><h1>Sáu câu chuyện mùi hương</h1></div><p>Sắp xếp theo cảm xúc, dịp sử dụng hoặc nốt hương bạn yêu thích.</p></div><span class="demo-label">Concept minh họa · Không bán hàng thật</span></section>
+    <section class="container collection-section"><form class="filters" id="filter-form"><fieldset class="filter-groups"><legend>Nhóm hương</legend><div class="filter-chips"><label><input type="radio" name="group" value="" ${!params.get("group") ? "checked" : ""}><span>Tất cả</span></label>${Object.entries(Vieperful.groups).map(([k,v]) => `<label><input type="radio" name="group" value="${k}" ${params.get("group") === k ? "checked" : ""}><span>${v}</span></label>`).join("")}</div></fieldset><label class="filter-control">Dịp sử dụng<select name="occasion" id="filter-occasion"><option value="">Mọi khoảnh khắc</option>${Object.entries(Vieperful.occasions).map(([k,v]) => `<option value="${k}" ${params.get("occasion") === k ? "selected" : ""}>${v}</option>`).join("")}</select></label><label class="filter-control">Sắp xếp<select name="sort" id="filter-sort"><option value="">Gợi ý Vieperful</option><option value="asc" ${params.get("sort") === "asc" ? "selected" : ""}>Giá thấp đến cao</option><option value="desc" ${params.get("sort") === "desc" ? "selected" : ""}>Giá cao đến thấp</option></select></label><label class="filter-search">Tìm mùi hương<input type="search" id="filter-q" name="q" placeholder="Tên hoặc nốt hương" maxlength="80" value="${escapeHTML(params.get("q") || "")}"></label></form>
+    <div class="results-bar"><span id="result-count" role="status"></span><button class="text-link" data-action="reset-filters" hidden>Xóa bộ lọc <span>↻</span></button></div><div class="product-grid" id="collection-grid"></div><p class="concept-note">Tầng hương là concept đề xuất, chưa phải thông số sản phẩm được kiểm chứng. Hình chai là minh họa thiết kế.</p></section>`;
   }
   function updateCollection() {
     const form = document.querySelector("#filter-form");
@@ -114,6 +111,8 @@
     document.querySelector("#collection-grid").innerHTML = products.length ? products.map(productCard).join("") : `<div class="empty-state"><span class="empty-symbol">✳︎</span><h2>Chưa tìm thấy mùi hương phù hợp</h2><p>Thử bỏ bớt bộ lọc hoặc tìm bằng tên một nốt hương khác.</p><button class="button button-outline" data-action="reset-filters">Xem tất cả mùi hương ${arrow}</button></div>`;
     const params = new URLSearchParams();
     for (const [key,value] of values) if (value) params.set(key,value);
+    document.querySelector('[data-action="reset-filters"]').hidden = [...values.values()].every(value => !value);
+    document.querySelectorAll('#filter-form input[name="group"]').forEach(input => input.closest("label").classList.toggle("is-selected", input.checked));
     history.replaceState(null, "", `#/collection${params.size ? "?" + params : ""}`);
     reveal();
   }
@@ -193,6 +192,40 @@
   }
   function openQuiz() { quizForm(); openDialog("quiz-dialog"); document.querySelector('#quiz-form input[name="occasion"]')?.focus({ preventScroll: true }); }
 
+  function selectScent(id, moveFocus = false) {
+    const product = Shop.product(id);
+    const stage = document.querySelector(".scent-experience");
+    if (!product || !stage) return;
+    const image = document.querySelector("#scent-image");
+    stage.dataset.tone = product.color;
+    document.querySelector(".scent-scene").dataset.tone = product.color;
+    image.src = product.image;
+    image.alt = `Ảnh concept chai nước hoa ${product.name}`;
+    image.classList.remove("is-entering");
+    void image.offsetWidth;
+    image.classList.add("is-entering");
+    document.querySelector(".scene-index").innerHTML = `${String(Vieperful.products.indexOf(product)+1).padStart(2,"0")} <i>/ 06</i>`;
+    document.querySelector(".scene-caption").textContent = product.label;
+    document.querySelector(".scent-family").textContent = `${Vieperful.groups[product.group]} · CONCEPT VIEPERFUL`;
+    document.querySelector("#scent-name").textContent = product.name;
+    document.querySelector(".scent-subtitle").textContent = product.subtitle;
+    document.querySelector(".scent-description").textContent = product.description;
+    const firstSize = product.sizes[0];
+    document.querySelector("#scent-price").textContent = money(firstSize.price);
+    document.querySelector(".scent-price > span:last-child").textContent = `/ ${firstSize.ml} ml · Giá minh họa`;
+    document.querySelector("#scent-detail-link").href = `#/product/${product.id}`;
+    const addButton = document.querySelector('[data-action="scent-add"]');
+    addButton.dataset.id = product.id;
+    addButton.setAttribute("aria-label", `Thêm ${product.name} 30 ml vào giỏ`);
+    document.querySelectorAll(".scent-tab").forEach(tab => {
+      const selected = tab.dataset.id === product.id;
+      tab.setAttribute("aria-selected", String(selected));
+      tab.tabIndex = selected ? 0 : -1;
+      if (selected) document.querySelector("#scent-current").setAttribute("aria-labelledby", tab.id);
+      if (selected && moveFocus) tab.focus();
+    });
+  }
+
   function quantityControls(item) {
     return `<div class="quantity-control" role="group" aria-label="Số lượng ${item.product.name} ${item.ml} ml"><button data-action="quantity" data-id="${item.id}" data-ml="${item.ml}" data-amount="-1" aria-label="Giảm số lượng ${item.product.name} ${item.ml} ml" ${item.quantity === 1 ? "disabled" : ""}>−</button><span aria-live="polite">${item.quantity}</span><button data-action="quantity" data-id="${item.id}" data-ml="${item.ml}" data-amount="1" aria-label="Tăng số lượng ${item.product.name} ${item.ml} ml" ${item.quantity === 99 ? "disabled" : ""}>+</button></div>`;
   }
@@ -251,20 +284,68 @@
     const video = document.querySelector("#hero-video");
     const button = document.querySelector("#video-toggle");
     if (!video) { pageCleanup = () => {}; return; }
+    const scene = document.querySelector(".scent-scene");
+    const finePointer = matchMedia("(hover: hover) and (pointer: fine)");
+    const autoplayDevice = matchMedia("(hover: hover) and (pointer: fine) and (min-width: 761px)");
+    let videoInView = false;
+    let userPaused = false;
     const update = () => {
       button.innerHTML = video.paused ? '<span aria-hidden="true">▶</span> <span>Phát video</span>' : '<span aria-hidden="true">Ⅱ</span> <span>Tạm dừng</span>';
       button.setAttribute("aria-label", video.paused ? "Phát video" : "Tạm dừng video");
     };
     const fail = () => { video.hidden = true; button.hidden = true; };
+    const syncVideo = () => {
+      const canAutoPlay = !video.hidden && videoInView && !document.hidden && !reducedMotion.matches && autoplayDevice.matches && !userPaused;
+      if (canAutoPlay) video.play().catch(update);
+      else video.pause();
+    };
+    const moveScene = event => {
+      if (!scene || reducedMotion.matches || !finePointer.matches) return;
+      const rect = scene.getBoundingClientRect();
+      const x = (event.clientX - rect.left - rect.width / 2) / rect.width;
+      const y = (event.clientY - rect.top - rect.height / 2) / rect.height;
+      scene.style.setProperty("--scene-x", `${(-x * 8).toFixed(2)}px`);
+      scene.style.setProperty("--scene-y", `${(-y * 8).toFixed(2)}px`);
+    };
+    const resetScene = () => {
+      if (!scene) return;
+      scene.style.setProperty("--scene-x", "0px");
+      scene.style.setProperty("--scene-y", "0px");
+    };
     video.addEventListener("error", fail);
     video.querySelector("source").addEventListener("error", fail);
     video.addEventListener("play", update);
     video.addEventListener("pause", update);
-    button.addEventListener("click", () => video.paused ? video.play().catch(() => toast("Video chưa phát được. Bạn vẫn có thể xem ảnh minh họa.")) : video.pause());
-    const onMotion = () => { if (reducedMotion.matches) video.pause(); };
+    button.addEventListener("click", () => {
+      if (video.paused) {
+        userPaused = false;
+        video.play().catch(() => toast("Video chưa phát được. Bạn vẫn có thể xem ảnh minh họa."));
+      } else { userPaused = true; video.pause(); }
+    });
+    const onMotion = () => {
+      if (reducedMotion.matches) resetScene();
+      syncVideo();
+    };
+    const onVisibility = () => syncVideo();
+    const visibilityObserver = "IntersectionObserver" in window ? new IntersectionObserver(entries => {
+      videoInView = entries.some(entry => entry.isIntersecting);
+      syncVideo();
+    }, { threshold: 0.12 }) : null;
     reducedMotion.addEventListener("change", onMotion);
-    if (!reducedMotion.matches) video.play().catch(update);
-    pageCleanup = () => { video.pause(); reducedMotion.removeEventListener("change", onMotion); };
+    document.addEventListener("visibilitychange", onVisibility);
+    visibilityObserver?.observe(video);
+    scene?.addEventListener("pointermove", moveScene);
+    scene?.addEventListener("pointerleave", resetScene);
+    if (!visibilityObserver) videoInView = true;
+    syncVideo();
+    pageCleanup = () => {
+      video.pause();
+      reducedMotion.removeEventListener("change", onMotion);
+      document.removeEventListener("visibilitychange", onVisibility);
+      visibilityObserver?.disconnect();
+      scene?.removeEventListener("pointermove", moveScene);
+      scene?.removeEventListener("pointerleave", resetScene);
+    };
   }
   function route() {
     pageCleanup();
@@ -277,7 +358,7 @@
     const title = path === "/" ? "Một mùi hương, một dấu ấn riêng" : path === "/collection" ? "Bộ sưu tập" : isProduct ? (Shop.product(path.split("/")[2])?.name || "Không tìm thấy") : path === "/about" ? "Câu chuyện" : path === "/guide" ? "Góc hương thơm" : path === "/checkout" ? "Đặt hàng thử" : "Đơn hàng thử";
     document.title = `${title} — Vieperful`;
     main.innerHTML = path === "/" ? home() : path === "/collection" ? collection(params) : isProduct ? detail(path.split("/")[2]) : path === "/about" ? about() : path === "/guide" ? guide() : path === "/checkout" ? checkout() : path === "/orders" ? ordersPage() : path.startsWith("/order/") ? confirmation(path.split("/")[2]) : notFound();
-    const step = path === "/collection" ? 1 : isProduct && Shop.product(path.split("/")[2]) ? 2 : path === "/checkout" && Shop.count() ? 3 : 0;
+    const step = path === "/checkout" && Shop.count() ? 3 : 0;
     if (step) main.insertAdjacentHTML("afterbegin", shoppingSteps(step));
     main.dataset.route = path;
     document.querySelectorAll("[data-nav]").forEach(a => {
@@ -285,16 +366,23 @@
       if (active) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
     });
     if (path === "/collection") {
-      ["group","occasion","sort"].forEach(key => {
+      const group = params.get("group") || "";
+      const groupInput = [...document.querySelectorAll('#filter-form input[name="group"]')].find(input => input.value === group);
+      if (groupInput) groupInput.checked = true;
+      ["occasion","sort"].forEach(key => {
         const select = document.querySelector(`#filter-${key}`);
-        if ([...select.options].some(o => o.value === params.get(key))) select.value = params.get(key);
+        if ([...select.options].some(o => o.value === params.get(key))) select.value = params.get(key) || "";
       });
       updateCollection();
       document.querySelector("#filter-form").addEventListener("input", updateCollection);
       document.querySelector("#filter-form").addEventListener("submit", e => e.preventDefault());
     }
     refreshCompare();
-    window.scrollTo({ top: 0, behavior: "instant" });
+    let restoreCollectionScroll = null;
+    if (path === "/collection") {
+      try { restoreCollectionScroll = sessionStorage.getItem("vieperful.collection-scroll"); sessionStorage.removeItem("vieperful.collection-scroll"); } catch { /* Storage may be disabled. */ }
+    }
+    window.scrollTo({ top: restoreCollectionScroll ? Number(restoreCollectionScroll) : 0, behavior: "instant" });
     main.focus({ preventScroll: true });
     if (path === "/guide" && params.get("section") === "faq") document.querySelector("#faq").scrollIntoView();
     startVideo();
@@ -313,6 +401,7 @@
       return;
     }
     const { action, id, ml, amount } = target.dataset;
+    if (action === "scent-select") selectScent(id);
     if (action === "choose-scent") {
       const section = document.querySelector("#choose-scent");
       section?.scrollIntoView({ behavior: reducedMotion.matches ? "instant" : "smooth" });
@@ -341,6 +430,7 @@
     if (action === "menu") openDialog("menu-dialog");
     if (action === "search") openDialog("search-dialog");
     if (action === "quick-add") { Shop.add(id, 30); badge(); toast(Shop.warning() ? "Đã thêm vào giỏ tạm thời. Trình duyệt đang hạn chế lưu trữ; giỏ có thể mất khi tải lại." : `${Shop.product(id).name} · 30 ml đã được thêm vào giỏ.`); }
+    if (action === "scent-add") { Shop.add(id, 30); badge(); renderCart(); openDialog("cart-dialog"); }
     if (action === "quantity" || action === "remove") {
       const focusedLabel = target.getAttribute("aria-label");
       const previousIndex = [...document.querySelectorAll(".cart-item")].indexOf(target.closest(".cart-item"));
@@ -373,6 +463,25 @@
       document.querySelector("#quick-view-price").textContent = money(p.sizes.find(s => s.ml === Number(event.target.value)).price);
     }
   });
+  document.addEventListener("keydown", event => {
+    const tab = event.target.closest?.(".scent-tab");
+    if (!tab) return;
+    const tabs = [...document.querySelectorAll(".scent-tab")];
+    let index = tabs.indexOf(tab);
+    if (event.key === "ArrowRight") index = (index + 1) % tabs.length;
+    else if (event.key === "ArrowLeft") index = (index - 1 + tabs.length) % tabs.length;
+    else if (event.key === "Home") index = 0;
+    else if (event.key === "End") index = tabs.length - 1;
+    else return;
+    event.preventDefault();
+    selectScent(tabs[index].dataset.id, true);
+  });
+  document.addEventListener("click", event => {
+    const productLink = event.target.closest('a[href^="#/product/"]');
+    if (productLink && currentRoute === "/collection") {
+      try { sessionStorage.setItem("vieperful.collection-scroll", String(window.scrollY)); } catch { /* Storage may be disabled. */ }
+    }
+  }, true);
   document.addEventListener("reset", event => {
     if (event.target.id === "quiz-form") {
       event.preventDefault();

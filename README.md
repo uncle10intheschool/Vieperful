@@ -4,7 +4,9 @@
 
 Website dự án môn học về nước hoa, viết bằng **HTML, CSS và JavaScript thuần**. Không cần framework, cơ sở dữ liệu hoặc bước build để chạy website. Ngôn ngữ giao diện: tiếng Việt.
 
-Bản bố cục mới: thư viện sáu ảnh sản phẩm, trắc nghiệm chọn hương, thẻ có xem nhanh/so sánh và chỉ dẫn chọn mua. Xem [ảnh và hướng dẫn chỉnh bố cục](docs/LAYOUT.md).
+Bản mới dùng một cảnh chọn sáu mùi tương tác, sau đó dẫn đến dịp sử dụng và câu chuyện thương hiệu. Danh mục có lọc nhóm hương, dịp, tìm kiếm và sắp xếp; thẻ sản phẩm dẫn đến xem nhanh, so sánh hoặc thêm vào giỏ. Xem [ảnh giao diện và hướng dẫn chỉnh sửa](docs/LAYOUT.md).
+
+Bản công khai: [vieperful.netlify.app](https://vieperful.netlify.app/).
 
 ## Chạy trong VS Code
 
@@ -51,7 +53,7 @@ Trên Windows, có thể dùng `py -m http.server 4173`.
 
 | Đường dẫn hash | Nội dung |
 | --- | --- |
-| `#/` | Trang chủ, video, thư viện ảnh sản phẩm, bộ sưu tập nổi bật, câu chuyện, gợi ý theo dịp |
+| `#/` | Trang chủ, video, cảnh chọn sáu mùi, gợi ý theo dịp và câu chuyện thương hiệu |
 | `#/collection` | 6 sản phẩm, lọc nhóm hương/dịp sử dụng, tìm kiếm, sắp xếp giá |
 | `#/product/sen-ha` | Chi tiết, 3 dung tích, giá tương ứng, tầng hương concept |
 | `#/about` | Câu chuyện và định hướng thương hiệu |
@@ -192,7 +194,7 @@ Bộ kiểm thử bao gồm:
 - Dữ liệu lưu hỏng và trường hợp không được phép lưu đơn.
 - Không có lỗi JavaScript hoặc tài nguyên HTTP thất bại trong các luồng chính.
 
-Kết quả kiểm tra bản nâng cấp: **23/23 nhóm kiểm thử đạt**; `npm run check` cũng đạt. Có kiểm tra trắc nghiệm, xem nhanh, so sánh, bộ lọc, giỏ và đặt thử đầy đủ.
+Kết quả kiểm tra bản nâng cấp: **25/25 nhóm kiểm thử đạt**; `npm run check` cũng đạt. Có kiểm tra desktop, tablet 768 px, điện thoại 390/320 px, bàn phím, giảm chuyển động, video, trắc nghiệm, xem nhanh, so sánh, bộ lọc, giỏ và đặt thử đầy đủ.
 
 Ảnh chụp kiểm thử nằm trong `test-results/` (được Git bỏ qua). Các phép thử trình duyệt tự động không thay thế hoàn toàn kiểm tra bằng người dùng.
 
@@ -200,6 +202,6 @@ Kết quả kiểm tra bản nâng cấp: **23/23 nhóm kiểm thử đạt**; `
 
 Website có thể được đưa lên máy chủ tĩnh bằng cách tải `index.html`, `css/`, `js/` và `assets/`. Không cần upload `node_modules/`, `tests/` hoặc máy chủ Node. Điều hướng dùng hash nên không cần cấu hình rewrite.
 
-Phiên làm việc này không có công cụ Sites khả dụng; bản bàn giao chạy cục bộ, chưa được triển khai lên một địa chỉ riêng tư. Không có URL triển khai công khai được tạo.
+Netlify phục vụ website tại [vieperful.netlify.app](https://vieperful.netlify.app/). Khi site được nối với GitHub, push lên nhánh `main` sẽ kích hoạt deploy tự động. Có thể theo dõi trạng thái bản dựng trong mục **Deploys** của site Netlify. Website là trang tĩnh; không cần build command hoặc publish directory riêng nếu cấu hình Netlify xuất phát từ thư mục gốc dự án.
 
 Kiểm thử được thực hiện trên Chromium trong môi trường phát triển, gồm kích thước máy tính và giả lập màn hình điện thoại. Chưa kiểm thử trên thiết bị iPhone/Android thật, Safari hoặc Firefox; chưa thực hiện kiểm toán accessibility toàn diện.
