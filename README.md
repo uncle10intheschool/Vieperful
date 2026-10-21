@@ -4,7 +4,7 @@
 
 Website dự án môn học về nước hoa, viết bằng **HTML, CSS và JavaScript thuần**. Không cần framework, cơ sở dữ liệu hoặc bước build để chạy website. Ngôn ngữ giao diện: tiếng Việt.
 
-Bản bố cục mới: cảnh rừng nhiều lớp, trắc nghiệm chọn hương, thẻ có xem nhanh/so sánh và chỉ dẫn chọn mua. Xem [ảnh và hướng dẫn chỉnh bố cục](docs/LAYOUT.md).
+Bản bố cục mới: thư viện sáu ảnh sản phẩm, trắc nghiệm chọn hương, thẻ có xem nhanh/so sánh và chỉ dẫn chọn mua. Xem [ảnh và hướng dẫn chỉnh bố cục](docs/LAYOUT.md).
 
 ## Chạy trong VS Code
 
@@ -51,7 +51,7 @@ Trên Windows, có thể dùng `py -m http.server 4173`.
 
 | Đường dẫn hash | Nội dung |
 | --- | --- |
-| `#/` | Trang chủ, video, cảnh rừng nhiều lớp, bộ sưu tập nổi bật, câu chuyện, gợi ý theo dịp |
+| `#/` | Trang chủ, video, thư viện ảnh sản phẩm, bộ sưu tập nổi bật, câu chuyện, gợi ý theo dịp |
 | `#/collection` | 6 sản phẩm, lọc nhóm hương/dịp sử dụng, tìm kiếm, sắp xếp giá |
 | `#/product/sen-ha` | Chi tiết, 3 dung tích, giá tương ứng, tầng hương concept |
 | `#/about` | Câu chuyện và định hướng thương hiệu |
@@ -74,10 +74,9 @@ Vieperful/
 │   ├── store.js            # Giỏ hàng, tổng tiền, lưu đơn bằng localStorage
 │   └── app.js              # Điều hướng, render trang, sự kiện, kiểm tra biểu mẫu
 ├── assets/
-│   ├── mark.svg            # Biểu tượng thương hiệu dạng vector
+│   ├── mark.svg            # Biểu tượng thương hiệu
 │   ├── sen-ha.webp ...     # 6 ảnh concept sản phẩm WebP, 1254 × 1254
 │   ├── vieperful-story.webp # Ảnh câu chuyện thương hiệu, 1672 × 941
-│   ├── forest-*.svg        # Cảnh rừng nhiều lớp dạng vector
 │   ├── vieperful-film.mp4  # Bản gốc 1280×720, được giữ nguyên
 │   ├── vieperful-film-hd.mp4 # Bản 1920×1080 đã upscale/làm nét nhẹ
 │   ├── film-poster-hd.jpg  # Ảnh dự phòng 1920×1080
@@ -129,7 +128,7 @@ Mở `js/products.js`. Ví dụ:
 3. Sáu ảnh sản phẩm hiện tại là WebP vuông 1254 × 1254; ảnh câu chuyện là WebP 1672 × 941. Ảnh dùng cho nội dung này là concept minh họa dự án, không xác nhận sản phẩm thương mại có thật.
 4. Đổi trường `image` theo ID tương ứng trong `js/products.js`. Dung tích và giá được cập nhật theo lựa chọn, còn chữ dung tích đã in trong ảnh concept vẫn là 30 ml.
 
-Ảnh câu chuyện thương hiệu hiện dùng `assets/vieperful-story.webp`. Cảnh rừng Sương Rừng vẫn là minh họa SVG nhiều lớp để tạo hiệu ứng chiều sâu; đây không phải ảnh chụp tách lớp hay mô hình chai 360°.
+Ảnh câu chuyện thương hiệu hiện dùng `assets/vieperful-story.webp`. Khu vực giới thiệu bộ sưu tập dùng sáu ảnh WebP và liên kết trực tiếp đến từng sản phẩm; cảnh rừng vector và hiệu ứng parallax đã được gỡ bỏ. `assets/mark.svg` chỉ còn dùng cho biểu tượng nhận diện.
 
 ### Video
 

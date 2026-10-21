@@ -71,14 +71,10 @@
       <p class="concept-note">Bộ sưu tập concept · Giá và tầng hương là dữ liệu minh họa. Chọn sản phẩm để xem các dung tích 10, 30 và 50 ml.</p>
     </div></section>`;
   }
-  function forestFeatureSection() {
-    const layers = [
-      ["forest-ridgeline.svg", "1.2", "Dãy núi Việt Nam phía xa"],
-      ["forest-canopy.svg", "2.1", "Tán rừng xanh nhiều lớp"],
-      ["forest-light.svg", "2.8", "Ánh nắng xuyên sương"],
-      ["forest-fronds.svg", "3.4", "Tán lá ở tiền cảnh"]
-    ];
-    return `<section class="forest-feature" aria-labelledby="forest-title"><div class="forest-copy reveal"><span class="eyebrow">01 / HƠI THỞ CỦA RỪNG</span><h2 id="forest-title">Một làn sương.<br><em>Một khoảng xanh.</em></h2><p>Sương Rừng gợi cảm giác tĩnh lặng giữa tán lá sau cơn mưa. Một concept hương thanh mát, lấy cảm hứng từ sắc rừng Việt Nam.</p><a class="button button-light" href="#/product/suong-rung">Khám phá Sương Rừng ${arrow}</a><small>Ảnh minh họa nhiều lớp · Dữ liệu sản phẩm concept</small></div><div class="forest-stage" aria-label="Minh họa rừng nhiều lớp với chai Sương Rừng"><div class="forest-glow" aria-hidden="true"></div>${layers.map(([src, depth, alt]) => `<img class="forest-layer" data-depth="${depth}" src="assets/${src}" alt="" aria-hidden="true" style="--layer-depth:${depth}">`).join("")}<img class="forest-bottle" data-depth="4.2" src="assets/suong-rung.svg" alt="" aria-hidden="true"><span class="forest-stage-caption" aria-hidden="true">LÁ XANH · TRÀ TRẮNG · GỖ TUYẾT TÙNG</span></div></section>`;
+  function productImageFeatureSection() {
+    const galleryProducts = ["suong-rung", "sen-ha", "tra-mien", "moc-tram", "nhai-dem", "nang-phu-sa"]
+      .map(id => Vieperful.products.find(product => product.id === id));
+    return `<section class="product-gallery-feature" aria-labelledby="product-gallery-title"><div class="product-gallery-copy reveal"><span class="eyebrow">01 / BỘ SƯU TẬP VIEPERFUL</span><h2 id="product-gallery-title">Sáu mùi hương.<br><em>Sáu câu chuyện.</em></h2><p>Từ sắc sen, trà xanh đến hương gỗ ấm, mỗi concept gợi một lát cắt thiên nhiên Việt Nam và một cảm xúc riêng.</p><a class="button button-light" href="#/collection">Khám phá cả bộ sưu tập ${arrow}</a><small>Ảnh concept sản phẩm · Dữ liệu minh họa dự án môn học</small></div><div class="product-gallery" aria-label="Ảnh sáu sản phẩm concept Vieperful">${galleryProducts.map(product => `<a class="product-gallery-tile" data-product-id="${product.id}" href="#/product/${product.id}" aria-label="Xem sản phẩm ${product.name}"><img src="${product.image}" alt="Ảnh concept chai nước hoa ${product.name}" loading="lazy" width="1254" height="1254"><span>${product.name}</span></a>`).join("")}</div></section>`;
   }
   function brandStorySection() {
     return `<section class="story-band" aria-labelledby="story-title"><div class="story-image"><img src="assets/vieperful-story.webp" alt="Chai Vieperful bên hồ sen giữa núi rừng trong sương" loading="lazy" width="1672" height="941"><span class="image-caption">MỘT CHÚT HỒN VIỆT. MỘT CHÚT RIÊNG BẠN.</span></div><div class="story-copy reveal"><span class="eyebrow">04 / CÂU CHUYỆN VIEPERFUL</span><h2 id="story-title">Từ điều thân thuộc,<br>đến một <em>dấu ấn riêng.</em></h2><p>Một đóa sen trên mặt nước. Một chén trà trong sớm mai. Một vệt nắng trên thềm gỗ.</p><p>Vieperful bắt đầu từ những điều giản dị ấy — mang vẻ đẹp thiên nhiên Việt Nam vào câu chuyện mùi hương của người trẻ.</p><a class="text-link light" href="#/about">Khám phá câu chuyện ${arrow}</a></div></section>`;
@@ -88,7 +84,7 @@
       <div class="hero-copy"><div class="hero-eyebrow"><span class="small-line"></span> MÙI HƯƠNG LẤY CẢM HỨNG TỪ VIỆT NAM</div><h1>Hương Việt.<br><em>Dấu ấn riêng.</em></h1><p>Một mùi hương hợp với bạn,<br>cho những khoảnh khắc rất riêng.</p><div class="hero-actions"><button class="button" data-action="quiz-open">Tìm mùi hương của bạn ${arrow}</button><a class="hero-story-link" href="#/collection">Khám phá cả bộ sưu tập <span>→</span></a></div><div class="hero-caption"><span class="hero-number">06</span><span>Mùi hương concept.<br>Một câu chuyện của riêng bạn.</span><img src="assets/mark.svg" alt="" width="36" height="44"></div></div>
       <div class="hero-media"><img class="hero-poster" src="assets/film-poster-hd.jpg" alt="Chai Vieperful sắc hổ phách bên hoa sen và non nước lúc hoàng hôn" width="1920" height="1080" fetchpriority="high"><video id="hero-video" muted loop playsinline preload="metadata" poster="assets/film-poster-hd.jpg" aria-label="Phim cảm hứng Vieperful: nước hoa giữa non nước Việt Nam"><source src="assets/vieperful-film-hd.mp4" type="video/mp4"></video><div class="hero-media-shade"></div><span class="media-label">THE SCENT OF YOUR OWN STORY</span><div class="media-bottom"><span>Hồn Việt trong từng<br><i>khoảnh khắc.</i></span><button id="video-toggle" class="video-toggle" aria-label="Phát video"><span aria-hidden="true">▶</span> <span>Phát video</span></button></div></div>
     </section>
-    ${forestFeatureSection()}
+    ${productImageFeatureSection()}
     ${occasionSection()}
     ${featuredSection()}
     ${brandStorySection()}
@@ -254,29 +250,7 @@
   function startVideo() {
     const video = document.querySelector("#hero-video");
     const button = document.querySelector("#video-toggle");
-    const stage = document.querySelector(".forest-stage");
-    const cleanups = [];
-    if (stage && matchMedia("(hover: hover) and (pointer: fine)").matches && !reducedMotion.matches) {
-      const layers = [...stage.querySelectorAll("[data-depth]")];
-      const move = event => {
-        if (event.pointerType === "touch" || reducedMotion.matches) return;
-        const rect = stage.getBoundingClientRect();
-        const x = (event.clientX - rect.left) / rect.width - .5;
-        const y = (event.clientY - rect.top) / rect.height - .5;
-        layers.forEach(layer => {
-          const depth = Number(layer.dataset.depth);
-          const tilt = layer.classList.contains("forest-bottle") ? ` rotateY(${x * 3}deg) rotateX(${y * -2}deg)` : "";
-          layer.style.transform = `translate3d(${x * depth * -5}px, ${y * depth * -4}px, 0)${tilt}`;
-        });
-      };
-      const reset = () => layers.forEach(layer => { layer.style.transform = ""; });
-      const motionChange = () => { if (reducedMotion.matches) reset(); };
-      stage.addEventListener("pointermove", move, { passive: true });
-      stage.addEventListener("pointerleave", reset, { passive: true });
-      reducedMotion.addEventListener("change", motionChange);
-      cleanups.push(() => { stage.removeEventListener("pointermove", move); stage.removeEventListener("pointerleave", reset); reducedMotion.removeEventListener("change", motionChange); reset(); });
-    }
-    if (!video) { pageCleanup = () => cleanups.forEach(cleanup => cleanup()); return; }
+    if (!video) { pageCleanup = () => {}; return; }
     const update = () => {
       button.innerHTML = video.paused ? '<span aria-hidden="true">▶</span> <span>Phát video</span>' : '<span aria-hidden="true">Ⅱ</span> <span>Tạm dừng</span>';
       button.setAttribute("aria-label", video.paused ? "Phát video" : "Tạm dừng video");
@@ -290,7 +264,7 @@
     const onMotion = () => { if (reducedMotion.matches) video.pause(); };
     reducedMotion.addEventListener("change", onMotion);
     if (!reducedMotion.matches) video.play().catch(update);
-    pageCleanup = () => { video.pause(); reducedMotion.removeEventListener("change", onMotion); cleanups.forEach(cleanup => cleanup()); };
+    pageCleanup = () => { video.pause(); reducedMotion.removeEventListener("change", onMotion); };
   }
   function route() {
     pageCleanup();

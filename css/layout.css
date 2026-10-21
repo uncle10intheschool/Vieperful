@@ -120,25 +120,23 @@
 .footer-note p { max-width: 780px; }
 .footer-bottom { font-size: var(--text-label); }
 
-/* 6. Cảnh rừng nhiều lớp: minh họa vector, hiệu ứng nghiêng rất nhẹ. */
-.forest-feature { display: grid; grid-template-columns: minmax(300px,.78fr) minmax(0,1.22fr); align-items: stretch; min-height: 610px; overflow: hidden; background: #172a22; color: #f8f5ee; }
-.forest-copy { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; padding: 70px max(45px,calc((100vw - 1240px)/2)) 70px max(56px,calc((100vw - 1240px)/2)); }
-.forest-copy .eyebrow { color: #d3bf92; font-size: var(--text-label); }
-.forest-copy h2 { font-size: clamp(36px,4vw,55px); line-height: 1.22; margin: 20px 0; }
-.forest-copy h2 em { color: #d3bf92; }
-.forest-copy p { max-width: 480px; color: #d5dbd2; font-size: var(--text-body); line-height: 1.9; }
-.forest-copy small { margin-top: 20px; color: #c2cbbc; font-size: var(--text-label); }
+/* 6. Bộ sưu tập ảnh sản phẩm thay cảnh rừng vector. */
+.product-gallery-feature { display: grid; grid-template-columns: minmax(300px,.78fr) minmax(0,1.22fr); align-items: stretch; min-height: 610px; overflow: hidden; background: #172a22; color: #f8f5ee; }
+.product-gallery-copy { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; padding: 70px max(45px,calc((100vw - 1240px)/2)) 70px max(56px,calc((100vw - 1240px)/2)); }
+.product-gallery-copy .eyebrow { color: #d3bf92; font-size: var(--text-label); }
+.product-gallery-copy h2 { font-size: clamp(36px,4vw,55px); line-height: 1.22; margin: 20px 0; }
+.product-gallery-copy h2 em { color: #d3bf92; }
+.product-gallery-copy p { max-width: 480px; color: #d5dbd2; font-size: var(--text-body); line-height: 1.9; }
+.product-gallery-copy small { margin-top: 20px; color: #c2cbbc; font-size: var(--text-label); }
 .button-light { color: #1e2d23; background: #c5a56d; border-color: #c5a56d; font-weight: 500; box-shadow: 0 8px 24px #07140e30; }
 .button-light:hover { color: #17261d; background: #d5bb83; border-color: #d5bb83; transform: translateY(-1px); }
-.forest-stage { position: relative; min-height: 610px; overflow: hidden; isolation: isolate; background: radial-gradient(ellipse at 58% 35%,#71836a 0,#455d4c 31%,#263e32 71%,#182b23 100%); perspective: 900px; }
-.forest-glow { position: absolute; z-index: 0; width: 42%; aspect-ratio: 1; top: -8%; left: 28%; border-radius: 50%; background: #e7d39d; filter: blur(85px); opacity: .18; pointer-events: none; }
-.forest-layer { position: absolute; inset: -2%; z-index: 1; width: 104%; height: 104%; max-width: none; object-fit: cover; pointer-events: none; user-select: none; will-change: transform; }
-.forest-layer[data-depth="1.2"] { opacity: .88; }
-.forest-layer[data-depth="2.1"] { opacity: .94; }
-.forest-layer[data-depth="2.8"] { opacity: .72; mix-blend-mode: screen; }
-.forest-layer[data-depth="3.4"] { width: 48%; height: 105%; left: auto; right: -2%; top: auto; bottom: -4%; object-fit: contain; object-position: bottom right; z-index: 4; }
-.forest-bottle { position: absolute; z-index: 3; width: min(48%,390px); height: 84%; max-width: none; left: 29%; bottom: -2%; object-fit: contain; filter: drop-shadow(12px 24px 25px #07140e88); pointer-events: none; user-select: none; transform-style: preserve-3d; will-change: transform; }
-.forest-stage-caption { position: absolute; z-index: 5; bottom: 28px; left: 28px; color: #fff9e7; font-size: 10px; letter-spacing: 1.5px; text-shadow: 0 1px 8px #07140e; pointer-events: none; }
+.product-gallery { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); grid-template-rows: repeat(2,minmax(0,1fr)); gap: 12px; min-height: 610px; padding: 24px; background: #10231b; }
+.product-gallery-tile { position: relative; display: block; min-width: 0; min-height: 0; overflow: hidden; background: #e9e4d8; color: #fffdf6; isolation: isolate; }
+.product-gallery-tile::after { content: ""; position: absolute; z-index: 1; inset: 38% 0 0; background: linear-gradient(transparent,#09130fc9); pointer-events: none; }
+.product-gallery-tile img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .6s cubic-bezier(.2,.6,.3,1); }
+.product-gallery-tile:hover img { transform: scale(1.045); }
+.product-gallery-tile span { position: absolute; z-index: 2; left: 16px; right: 12px; bottom: 14px; font: 20px var(--serif); text-shadow: 0 1px 8px #07140e88; }
+.product-gallery-tile:focus-visible { outline: 3px solid #d2b274; outline-offset: -4px; }
 
 /* 7. Các hỗ trợ chọn mùi hương, xem nhanh và so sánh. */
 .product-card-links { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
@@ -193,20 +191,17 @@
 .faq-group-title { margin: 36px 0 0; padding-top: 20px; border-top: 1px solid var(--line); font: 500 16px var(--sans); color: var(--green); }
 
 @media (max-width: 800px) {
-  .forest-feature { grid-template-columns: 1fr; }
-  .forest-copy { padding: 48px 32px 38px; }
-  .forest-stage { min-height: 460px; }
-  .forest-layer[data-depth="3.4"] { width: 42%; }
-  .forest-bottle { width: 46%; left: 26%; height: 88%; }
+  .product-gallery-feature { grid-template-columns: 1fr; }
+  .product-gallery-copy { padding: 48px 32px 38px; }
+  .product-gallery { min-height: 560px; }
   .quick-view-layout { gap: 20px; }
 }
 @media (max-width: 600px) {
-  .forest-copy { padding: 40px 24px 30px; }
-  .forest-copy h2 { font-size: 39px; }
-  .forest-copy p { font-size: var(--text-body); }
-  .forest-stage { min-height: 380px; }
-  .forest-bottle { width: 56%; left: 20%; height: 88%; }
-  .forest-layer[data-depth="3.4"] { width: 45%; }
+  .product-gallery-copy { padding: 40px 24px 30px; }
+  .product-gallery-copy h2 { font-size: 39px; }
+  .product-gallery-copy p { font-size: var(--text-body); }
+  .product-gallery { grid-template-columns: repeat(2,minmax(0,1fr)); grid-template-rows: repeat(3,minmax(140px,42vw)); gap: 10px; min-height: 0; padding: 12px; }
+  .product-gallery-tile span { left: 11px; bottom: 10px; font-size: 17px; }
   .product-card-links { grid-template-columns: 1fr; gap: 0; }
   .product-card-links .card-detail-link { min-height: 42px; }
   .compare-launch { left: 16px; right: 16px; bottom: 14px; justify-content: space-between; }
@@ -224,11 +219,6 @@
   .quiz-result h3 { font-size: 24px; }
   .faq-group-title { font-size: 15px; }
 }
-@media (prefers-reduced-motion: reduce) {
-  .forest-layer, .forest-bottle { will-change: auto; }
-  .forest-stage * { transition: none !important; }
-}
-
 @media (max-width: 1100px) {
   .desktop-nav { display: none; }
   .mobile-only { display: flex; }

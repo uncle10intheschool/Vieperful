@@ -59,6 +59,13 @@ async function run() {
     const productImages = await page.evaluate(() => window.Vieperful.products.map(product => product.image));
     assert.equal(productImages.length, 6);
     assert.ok(productImages.every(src => src.endsWith(".webp")));
+    const galleryImages = page.locator(".product-gallery-tile img");
+    assert.equal(await galleryImages.count(), 6);
+    for (let index = 0; index < await galleryImages.count(); index += 1) {
+      const image = galleryImages.nth(index);
+      await image.scrollIntoViewIfNeeded();
+      await image.evaluate(element => element.decode());
+    }
     await page.locator(".site-footer").scrollIntoViewIfNeeded();
     await page.waitForTimeout(150);
     const broken = await page.evaluate(() => [...document.images].filter(i => !i.complete || !i.naturalWidth).map(i => i.src));
@@ -279,6 +286,12 @@ async function run() {
       await image.scrollIntoViewIfNeeded();
       await image.evaluate(element => element.decode());
     }
+    const galleryImages = page.locator(".product-gallery-tile img");
+    for (let index = 0; index < await galleryImages.count(); index += 1) {
+      const image = galleryImages.nth(index);
+      await image.scrollIntoViewIfNeeded();
+      await image.evaluate(element => element.decode());
+    }
     await page.locator(".story-image img").scrollIntoViewIfNeeded();
     await page.locator(".story-image img").evaluate(image => image.decode());
     await page.evaluate(() => scrollTo(0, 0));
@@ -314,32 +327,23 @@ async function run() {
     }
     await closeCart();
   });
-  await check("Bàn phím giữ focus trong trắc nghiệm; lớp cảnh không nhận chuột", async () => {
+  await check("Bàn phím giữ focus trong trắc nghiệm; thư viện thay hoàn toàn cảnh vector", async () => {
     await go("/");
     await page.getByRole("button", { name: "Tìm mùi hương của bạn" }).click();
     for (let i = 0; i < 20; i++) {
       await page.keyboard.press("Tab");
       assert.equal(await page.evaluate(() => !!document.activeElement.closest("#quiz-dialog")), true);
     }
-    assert.equal(await page.locator(".forest-layer").first().evaluate(el => getComputedStyle(el).pointerEvents), "none");
-    await page.mouse.move(1100, 700);
-    assert.equal(await page.locator(".forest-layer").first().evaluate(el => getComputedStyle(el).transform), "none");
+    const gallery = page.locator(".product-gallery-tile");
+    assert.deepEqual(await gallery.evaluateAll(tiles => tiles.map(tile => tile.dataset.productId)), ["suong-rung", "sen-ha", "tra-mien", "moc-tram", "nhai-dem", "nang-phu-sa"]);
+    assert.equal(await page.locator(".product-gallery img[src$='.svg'], .forest-layer, .forest-bottle, .forest-stage").count(), 0);
     await closeCart();
   });
   await check("Video phát/tạm dừng, tắt tiếng và phản hồi giảm chuyển động", async () => {
     await page.setViewportSize({ width: 1440, height: 1000 });
     await page.emulateMedia({ reducedMotion: "no-preference" });
-    await page.addInitScript(() => {
-      const nativeMatchMedia = window.matchMedia.bind(window);
-      window.matchMedia = query => query === "(hover: hover) and (pointer: fine)" ? { matches: true } : nativeMatchMedia(query);
-    });
     await page.reload();
     await page.waitForFunction(() => document.querySelector("main").dataset.route === "/");
-    await page.locator(".forest-stage").scrollIntoViewIfNeeded();
-    const stageBox = await page.locator(".forest-stage").boundingBox();
-    await page.mouse.move(stageBox.x + stageBox.width * .8, stageBox.y + stageBox.height * .2);
-    await page.waitForFunction(() => document.querySelector(".forest-bottle").style.transform.includes("rotateY"));
-    assert.match(await page.locator(".forest-bottle").evaluate(el => el.style.transform), /rotateX/);
     await page.waitForFunction(() => document.querySelector("#hero-video").readyState >= 2);
     if (await page.locator("#hero-video").evaluate(v => v.paused)) await page.locator("#video-toggle").click();
     await page.waitForFunction(() => !document.querySelector("#hero-video").paused);
@@ -349,7 +353,6 @@ async function run() {
     await page.locator("#video-toggle").click();
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.waitForFunction(() => document.querySelector("#hero-video").paused);
-    await page.waitForFunction(() => document.querySelector(".forest-bottle").style.transform === "");
   });
   await check("Video HD được phục vụ; lỗi phát vẫn giữ ảnh dự phòng", async () => {
     const response = await page.request.get(`${base}/assets/vieperful-film-hd.mp4`);

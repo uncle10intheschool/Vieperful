@@ -23,13 +23,13 @@ Các ảnh dưới đây là ảnh chụp website chạy thực tế. Bấm vào
 | Khu vực | Người xem cần hiểu hoặc làm gì? | Nơi sửa nội dung trong `js/app.js` |
 | --- | --- | --- |
 | Phần mở đầu | Vieperful là gì; bắt đầu trắc nghiệm chọn hương hoặc xem bộ sưu tập | `home()` |
-| 01 — Hơi thở của rừng | Cảnh vector nhiều lớp cho Sương Rừng, parallax/tilt nhẹ trên máy tính | `forestFeatureSection()` |
+| 01 — Bộ sưu tập ảnh | Sáu ảnh WebP có liên kết đến từng sản phẩm | `productImageFeatureSection()` |
 | 02 — Chọn hoàn cảnh | Chọn dịp dùng hoặc mở trắc nghiệm ba câu hỏi | `occasionSection()` |
 | 03 — Sản phẩm nổi bật | Xem nhanh, so sánh, chọn dung tích hoặc thêm nhanh 30 ml | `featuredSection()` và `productCard()` |
 | 04 — Câu chuyện | Đọc về cảm hứng thương hiệu | `brandStorySection()` |
 | Hướng dẫn và chân trang | Tìm hướng dẫn sử dụng, FAQ, đơn hàng thử | `home()` và `index.html` |
 
-`home()` gọi từng phần theo thứ tự; có thể di chuyển lời gọi `${forestFeatureSection()}`, `${occasionSection()}`, `${featuredSection()}` và `${brandStorySection()}` để sắp xếp lại. Không cần sửa logic giỏ hàng.
+`home()` gọi từng phần theo thứ tự; có thể di chuyển lời gọi `${productImageFeatureSection()}`, `${occasionSection()}`, `${featuredSection()}` và `${brandStorySection()}` để sắp xếp lại. Không cần sửa logic giỏ hàng.
 
 ## Hành trình chọn mua
 
@@ -65,7 +65,7 @@ Muốn nội dung lớn hơn nữa, có thể đổi `--text-body` thành `17px`
 | Tỷ lệ chữ và video phần mở đầu | `.hero` |
 | Khoảng cách trên/dưới mỗi phần | `.section` |
 | Khu vực chọn hoàn cảnh | `.occasion-grid`, `.occasion-card` |
-| Cảnh rừng Sương Rừng | `.forest-feature`, `.forest-stage`, `.forest-layer`, `.forest-bottle` |
+| Thư viện ảnh sản phẩm | `.product-gallery-feature`, `.product-gallery`, `.product-gallery-tile` |
 | Hộp chọn / xem nhanh / so sánh | `.quiz-dialog`, `.quick-view-dialog`, `.wide-dialog` |
 | Nền khu vực sản phẩm | `.featured-section` |
 | Số cột sản phẩm | `.product-grid` |

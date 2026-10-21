@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
-<defs><linearGradient id="mount" x2="0" y2="1"><stop stop-color="#66826b"/><stop offset="1" stop-color="#314d40"/></linearGradient><linearGradient id="haze"><stop stop-color="#f5d19b" stop-opacity=".55"/><stop offset="1" stop-color="#f5d19b" stop-opacity="0"/></linearGradient><filter id="soft"><feGaussianBlur stdDeviation="22"/></filter></defs>
-<ellipse cx="1060" cy="290" rx="260" ry="115" fill="url(#haze)" filter="url(#soft)"/>
-<path d="M0 510 155 320 282 428 467 210 595 404 760 180 890 393 1030 250 1178 432 1329 192 1490 402 1600 280V900H0Z" fill="#263d34" opacity=".7"/>
-<path d="M0 567 175 390 304 502 496 288 649 495 828 247 987 479 1125 345 1285 527 1438 283 1600 480V900H0Z" fill="url(#mount)"/>
-<path d="M476 308 496 288 518 324 499 316ZM807 281 828 247 849 291 828 278ZM1417 322 1438 283 1460 328 1438 313Z" fill="#c9cabb" opacity=".45"/>
-<path d="M0 619Q350 512 730 611t870-18V900H0Z" fill="#315343" opacity=".8"/>
-</svg>
