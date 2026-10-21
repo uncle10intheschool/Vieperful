@@ -57,11 +57,21 @@ async function run() {
     fs.mkdirSync(path.join(root, "test-results"), { recursive: true });
     await page.screenshot({ path: path.join(root, "test-results/home-desktop.png"), fullPage: true });
   });
-  await check("Hành trình gợi ý: chọn hoàn cảnh → chọn mùi → chọn dung tích", async () => {
+  await check("Trắc nghiệm 3 bước gợi ý theo dịp, nhóm hương và ngân sách", async () => {
     assert.ok(await page.locator(".hero-copy > p").evaluate(el => parseFloat(getComputedStyle(el).fontSize) >= 18));
     await page.getByRole("button", { name: "Tìm mùi hương của bạn" }).click();
-    assert.equal(await page.evaluate(() => document.activeElement.getAttribute("href")), "#/collection?occasion=work");
-    await page.keyboard.press("Enter");
+    assert.equal(await page.locator("#quiz-dialog").evaluate(d => d.open), true);
+    await page.locator("#quiz-form label").filter({ hasText: "Đi học & đi làm" }).click();
+    await page.locator("#quiz-form label").filter({ hasText: "Thanh mát" }).click();
+    await page.locator("#quiz-form label").filter({ hasText: "Đến 450.000 ₫" }).click();
+    await page.locator("#quiz-form button[type=submit]").click();
+    assert.equal(await page.locator(".quiz-result").count(), 2);
+    assert.match(await page.locator(".quiz-results").innerText(), /đi học & đi làm.*thanh mát/i);
+    assert.match(await page.locator(".quiz-result").first().innerText(), /Trà Miên/);
+    await page.getByRole("button", { name: "Trả lời lại ba câu hỏi" }).click();
+    assert.equal(await page.locator("#quiz-form").count(), 1);
+    await page.keyboard.press("Escape");
+    await page.locator(".occasion-card").first().click();
     await page.locator("#filter-occasion").waitFor();
     assert.equal(await page.locator("#filter-occasion").inputValue(), "work");
     assert.equal(await page.locator(".product-card").count(), 3);
@@ -70,6 +80,38 @@ async function run() {
     await page.locator("#product-form").waitFor();
     assert.match(await page.locator('.shopping-steps [aria-current="step"]').innerText(), /Chọn dung tích/);
     assert.ok(await page.locator(".detail-copy > p").last().evaluate(el => parseFloat(getComputedStyle(el).fontSize) >= 14));
+  });
+  await check("Xem nhanh đổi dung tích/giá và thêm đúng lựa chọn vào giỏ", async () => {
+    await go("/collection");
+    await page.getByRole("button", { name: "Xem nhanh", exact: true }).first().click();
+    assert.equal(await page.locator("#quick-view-dialog").evaluate(d => d.open), true);
+    await page.locator('#quick-view-form input[name="size"][value="50"]').check();
+    assert.match(await page.locator("#quick-view-price").innerText(), /689\.000/);
+    await page.locator("#quick-view-form button[type=submit]").click();
+    assert.equal(await page.locator("#quick-view-dialog").evaluate(d => d.open), false);
+    assert.equal(await page.locator("#cart-dialog").evaluate(d => d.open), true);
+    assert.deepEqual(await cartState(), [{ id: "sen-ha", ml: 50, quantity: 1 }]);
+    await page.getByRole("button", { name: "Xóa Sen Hạ 50 ml", exact: true }).click();
+    assert.deepEqual(await cartState(), []);
+    await closeCart();
+  });
+  await check("So sánh tối đa ba mùi và xóa lựa chọn", async () => {
+    await go("/collection");
+    const toggles = page.locator(".compare-toggle");
+    await toggles.nth(0).click();
+    await toggles.nth(1).click();
+    await toggles.nth(2).click();
+    assert.equal(await page.locator("#compare-launch").isVisible(), true);
+    assert.equal(await page.locator("#compare-count").innerText(), "3 / 3");
+    await page.locator("#compare-launch").click();
+    assert.equal(await page.locator("#compare-dialog").evaluate(d => d.open), true);
+    assert.equal(await page.locator(".compare-product strong").count(), 3);
+    await page.getByRole("button", { name: /Bỏ Sen Hạ khỏi danh sách so sánh/ }).click();
+    assert.equal(await page.locator("#compare-count").innerText(), "2 / 3");
+    assert.equal(await page.locator(".compare-product strong").count(), 2);
+    await page.locator("#compare-body").getByRole("button", { name: /Bỏ/ }).first().click();
+    await page.locator("#compare-body").getByRole("button", { name: /Bỏ/ }).click();
+    assert.equal(await page.locator("#compare-launch").isVisible(), false);
   });
   await check("Bộ sưu tập: lọc nhóm hương và dịp sử dụng", async () => {
     await go("/collection");
@@ -205,6 +247,9 @@ async function run() {
     await go("/about");
     assert.match(await page.locator("h1").innerText(), /Hương từ đất Việt/);
     await go("/guide?section=faq");
+    assert.match(await page.locator(".faq-list summary").first().innerText(), /mùi hương đầu tiên/);
+    assert.ok((await page.locator(".faq-group-title").innerText()).includes("Về bản demo"));
+    assert.match(await page.locator(".faq-group-title").evaluate(el => el.nextElementSibling.innerText), /mua sản phẩm thật/);
     await page.locator(".faq-list summary").first().click();
     assert.equal(await page.locator(".faq-list details").first().getAttribute("open"), "");
     await go("/product/khong-ton-tai");
@@ -229,6 +274,7 @@ async function run() {
     for (const route of ["/", "/collection", "/product/nhai-dem", "/about", "/guide", "/checkout", "/orders"]) {
       await go(route);
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, `Tràn ngang: ${route}`);
+      if (route === "/product/nhai-dem") await page.screenshot({ path: path.join(root, "test-results/product-mobile.png"), fullPage: true });
     }
     await go("/checkout");
     await page.screenshot({ path: path.join(root, "test-results/checkout-mobile.png"), fullPage: true });
@@ -246,9 +292,32 @@ async function run() {
     }
     await closeCart();
   });
-  await check("Video phát/tạm dừng, tắt tiếng và phản hồi giảm chuyển động", async () => {
-    await page.emulateMedia({ reducedMotion: "no-preference" });
+  await check("Bàn phím giữ focus trong trắc nghiệm; lớp cảnh không nhận chuột", async () => {
     await go("/");
+    await page.getByRole("button", { name: "Tìm mùi hương của bạn" }).click();
+    for (let i = 0; i < 20; i++) {
+      await page.keyboard.press("Tab");
+      assert.equal(await page.evaluate(() => !!document.activeElement.closest("#quiz-dialog")), true);
+    }
+    assert.equal(await page.locator(".forest-layer").first().evaluate(el => getComputedStyle(el).pointerEvents), "none");
+    await page.mouse.move(1100, 700);
+    assert.equal(await page.locator(".forest-layer").first().evaluate(el => getComputedStyle(el).transform), "none");
+    await closeCart();
+  });
+  await check("Video phát/tạm dừng, tắt tiếng và phản hồi giảm chuyển động", async () => {
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    await page.emulateMedia({ reducedMotion: "no-preference" });
+    await page.addInitScript(() => {
+      const nativeMatchMedia = window.matchMedia.bind(window);
+      window.matchMedia = query => query === "(hover: hover) and (pointer: fine)" ? { matches: true } : nativeMatchMedia(query);
+    });
+    await page.reload();
+    await page.waitForFunction(() => document.querySelector("main").dataset.route === "/");
+    await page.locator(".forest-stage").scrollIntoViewIfNeeded();
+    const stageBox = await page.locator(".forest-stage").boundingBox();
+    await page.mouse.move(stageBox.x + stageBox.width * .8, stageBox.y + stageBox.height * .2);
+    await page.waitForFunction(() => document.querySelector(".forest-bottle").style.transform.includes("rotateY"));
+    assert.match(await page.locator(".forest-bottle").evaluate(el => el.style.transform), /rotateX/);
     await page.waitForFunction(() => document.querySelector("#hero-video").readyState >= 2);
     if (await page.locator("#hero-video").evaluate(v => v.paused)) await page.locator("#video-toggle").click();
     await page.waitForFunction(() => !document.querySelector("#hero-video").paused);
@@ -258,10 +327,14 @@ async function run() {
     await page.locator("#video-toggle").click();
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.waitForFunction(() => document.querySelector("#hero-video").paused);
+    await page.waitForFunction(() => document.querySelector(".forest-bottle").style.transform === "");
   });
-  await check("Video lỗi vẫn có ảnh dự phòng", async () => {
+  await check("Video HD được phục vụ; lỗi phát vẫn giữ ảnh dự phòng", async () => {
+    const response = await page.request.get(`${base}/assets/vieperful-film-hd.mp4`);
+    assert.equal(response.ok(), true);
+    assert.ok(Number(response.headers()["content-length"]) > 9000000);
     const fallback = await context.newPage();
-    await fallback.route("**/vieperful-film.mp4", route => route.abort());
+    await fallback.route("**/vieperful-film-hd.mp4", route => route.abort());
     await fallback.goto(base);
     await fallback.waitForFunction(() => document.querySelector("#hero-video").hidden);
     assert.equal(await fallback.locator(".hero-poster").evaluate(i => i.complete && i.naturalWidth > 0), true);

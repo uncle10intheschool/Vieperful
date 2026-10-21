@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 800" preserveAspectRatio="xMidYMid slice">
+<defs><linearGradient id="sky" x2="0" y2="1"><stop stop-color="#b5b9a7"/><stop offset=".38" stop-color="#d8c8a3"/><stop offset=".68" stop-color="#7d997e"/><stop offset="1" stop-color="#274638"/></linearGradient><linearGradient id="shade"><stop stop-color="#101d18" stop-opacity=".12"/><stop offset="1" stop-color="#101d18" stop-opacity=".72"/></linearGradient><filter id="mist"><feGaussianBlur stdDeviation="22"/></filter></defs>
+<path fill="url(#sky)" d="M0 0h1600v800H0z"/>
+<circle cx="1100" cy="168" r="85" fill="#fff1c9" opacity=".8"/>
+<path d="M0 455 172 198l139 201 185-271 176 263L854 145l151 278 188-244 143 236 151-201 113 199v387H0Z" fill="#506b5c" opacity=".84"/>
+<path d="m444 204 52-76 60 100-55-28Zm355 3 63-94 52 104-57-36Zm594 36 47-59 52 90-62-25Z" fill="#e1dbbc" opacity=".48"/>
+<path d="M0 514q330-100 660 9t940-11v288H0Z" fill="#4c6b50"/><path d="M0 593q330-100 660 9t940-11v209H0Z" fill="#35543e"/>
+<ellipse cx="700" cy="445" rx="770" ry="55" fill="#ece4ca" opacity=".5" filter="url(#mist)"/><ellipse cx="1215" cy="534" rx="580" ry="46" fill="#d8dec9" opacity=".46" filter="url(#mist)"/>
+<g fill="#1d362b"><path d="M0 0h142L45 800H0Zm185 0h84l-2 544-82 256-28-442Zm1195 0h81l45 800h-126l49-554Zm131 0h89v800h-33Zm-238-5h50l84 534-73 271h-79l44-536Z"/></g>
+<path d="M0 0h1600v800H0Z" fill="url(#shade)"/>
+<g fill="none" stroke="#e3d2a7" stroke-opacity=".3" stroke-width="3"><path d="M340 676q210-32 420 0t500 0"/><path d="M295 710q275-28 515 0t530 0"/></g>
+<g transform="translate(466 597)" fill="none" stroke="#f1e8d2" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M0 55Q8 19 18 0Q31 35 28 57M15 55Q34 21 57 13Q53 43 27 62M20 56Q53 37 76 42Q57 62 27 66M15 56Q-13 38-30 42Q-18 63 9 68M16 56Q0 26-11 15Q-17 44 8 65"/>
+  <path d="M-46 78q56 18 112 0M-60 91q68 19 136 0" stroke-opacity=".68"/>
+</g>
+<g transform="translate(840 317)">
+  <ellipse cx="8" cy="401" rx="196" ry="25" fill="#071b14" opacity=".46"/>
+  <path d="M-69 58v-42q0-21 21-21h112q21 0 21 21v42l49 47q12 12 12 34v209q0 29-29 29h-229q-29 0-29-29V139q0-22 12-34Z" fill="#181914" stroke="#c7a66c" stroke-width="8"/>
+  <path d="M-45 48v-32q0-5 6-5h98q6 0 6 5v32Z" fill="#29251e" stroke="#c7a66c" stroke-width="3"/>
+  <path d="M-116 150q0-20 14-34l37-37h143l37 37q14 14 14 34v187q0 20-21 20h-203q-21 0-21-20Z" fill="#b76c36" fill-opacity=".8" stroke="#f0d6a0" stroke-width="5"/>
+  <path d="M-96 160v164M105 154v169" stroke="#fff4d1" stroke-opacity=".58" stroke-width="8" stroke-linecap="round"/>
+  <rect x="-79" y="177" width="158" height="116" rx="3" fill="#f4e9d0" fill-opacity=".92"/>
+  <path d="M-1 199q-16 13-1 28 13-13 1-28Zm1 24q-19 9-10 21 11-7 10-21Zm0 0q17 10 10 21-12-7-10-21Z" fill="#836741"/>
+  <text x="0" y="260" text-anchor="middle" fill="#40372c" font-family="Georgia,serif" font-size="17" letter-spacing="4">VIEPERFUL</text>
+  <text x="0" y="281" text-anchor="middle" fill="#6e6250" font-family="Arial,sans-serif" font-size="8" letter-spacing="2">EAU DE PARFUM</text>
+</g>
+<g fill="#91a27d" opacity=".85"><path d="M1450 800q72-118 32-256 116 98 96 256Zm-108 0q-25-88 8-176 57 91 46 176ZM108 800Q35 680 63 568q98 105 96 232Z"/><path d="M1460 797q23-145 127-221-15 144-115 237Z"/></g>
+</svg>

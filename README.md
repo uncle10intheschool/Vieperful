@@ -4,7 +4,7 @@
 
 Website dự án môn học về nước hoa, viết bằng **HTML, CSS và JavaScript thuần**. Không cần framework, cơ sở dữ liệu hoặc bước build để chạy website. Ngôn ngữ giao diện: tiếng Việt.
 
-Bản bố cục mới: chữ nội dung 16–18 px, chọn hoàn cảnh ngay sau phần mở đầu, thẻ sản phẩm có hành động rõ ràng và chỉ dẫn 3 bước chọn mua. Xem [ảnh và hướng dẫn chỉnh bố cục](docs/LAYOUT.md).
+Bản bố cục mới: cảnh rừng nhiều lớp, trắc nghiệm chọn hương, thẻ có xem nhanh/so sánh và chỉ dẫn chọn mua. Xem [ảnh và hướng dẫn chỉnh bố cục](docs/LAYOUT.md).
 
 ## Chạy trong VS Code
 
@@ -51,7 +51,7 @@ Trên Windows, có thể dùng `py -m http.server 4173`.
 
 | Đường dẫn hash | Nội dung |
 | --- | --- |
-| `#/` | Trang chủ, video, bộ sưu tập nổi bật, câu chuyện, gợi ý theo dịp |
+| `#/` | Trang chủ, video, cảnh rừng nhiều lớp, bộ sưu tập nổi bật, câu chuyện, gợi ý theo dịp |
 | `#/collection` | 6 sản phẩm, lọc nhóm hương/dịp sử dụng, tìm kiếm, sắp xếp giá |
 | `#/product/sen-ha` | Chi tiết, 3 dung tích, giá tương ứng, tầng hương concept |
 | `#/about` | Câu chuyện và định hướng thương hiệu |
@@ -60,7 +60,7 @@ Trên Windows, có thể dùng `py -m http.server 4173`.
 | `#/order/<mã-đơn>` | Xác nhận đơn đã lưu trên trình duyệt |
 | `#/orders` | Lịch sử và xóa đơn thử |
 
-Giỏ hàng mở từ biểu tượng túi. Menu điện thoại, giỏ hàng và tìm kiếm dùng hộp thoại có vòng focus bàn phím; nhấn **Escape** để đóng. Bộ lọc được lưu trong URL nên có thể tải lại hoặc chia sẻ lựa chọn lọc.
+Giỏ hàng mở từ biểu tượng túi. Trắc nghiệm chọn hương dùng ba lựa chọn (dịp, nhóm hương, ngân sách) để xếp hạng 1–2 gợi ý từ dữ liệu minh họa. Từ danh mục có thể xem nhanh sản phẩm với giá cập nhật theo dung tích, hoặc so sánh tối đa ba sản phẩm. Menu, giỏ, tìm kiếm và các công cụ mới dùng hộp thoại có vòng focus bàn phím; nhấn **Escape** để đóng. Bộ lọc được lưu trong URL nên có thể tải lại hoặc chia sẻ lựa chọn lọc.
 
 ## Cấu trúc thư mục
 
@@ -75,9 +75,11 @@ Vieperful/
 │   └── app.js              # Điều hướng, render trang, sự kiện, kiểm tra biểu mẫu
 ├── assets/
 │   ├── mark.svg            # Biểu tượng thương hiệu dạng vector
-│   ├── sen-ha.svg ...      # 6 hình minh họa chai nước hoa concept
-│   ├── vieperful-film.mp4  # Bản sao nguyên vẹn video người dùng cung cấp
-│   ├── film-poster.jpg     # Khung hình tại giây 17, dùng làm ảnh dự phòng
+│   ├── sen-ha.svg ...      # 6 hình minh họa concept hiện tại
+│   ├── forest-*.svg        # Cảnh rừng và câu chuyện dạng vector nhiều lớp
+│   ├── vieperful-film.mp4  # Bản gốc 1280×720, được giữ nguyên
+│   ├── vieperful-film-hd.mp4 # Bản 1920×1080 đã upscale/làm nét nhẹ
+│   ├── film-poster-hd.jpg  # Ảnh dự phòng 1920×1080
 │   └── fonts/             # Lora, Be Vietnam Pro và giấy phép OFL
 ├── scripts/serve.cjs       # Máy chủ tĩnh nhỏ, có hỗ trợ HTTP Range cho video
 ├── tests/e2e.cjs           # Kiểm thử trình duyệt bằng Playwright
@@ -124,14 +126,15 @@ Mở `js/products.js`. Ví dụ:
 1. Thêm ảnh mới vào `assets/`, giữ lại file gốc nếu cần chỉnh sửa.
 2. Đổi trường `image` trong `products.js`.
 3. Dùng ảnh rõ, tối ưu dung lượng, ưu tiên tối thiểu khoảng 800 px cho ảnh chi tiết.
-4. SVG hiện tại là hình minh họa tự tạo, không phải ảnh chụp sản phẩm thật. Chữ trên hình chai đang minh họa 30 ml; ảnh không thay đổi khi chọn dung tích, thông tin mua thử được xác định bằng lựa chọn trên giao diện.
+4. Sáu SVG hiện tại là hình minh họa concept, không phải ảnh chụp sản phẩm thật. Bộ ảnh ghép tham khảo không chứa đủ sáu tệp ảnh riêng trong workspace; người dùng đã chọn gửi lại ảnh riêng. Khi nhận đủ ảnh, đổi trường `image` theo ID tương ứng trong `js/products.js`. Chữ trên hình chai hiện tại minh họa 30 ml; ảnh không thay đổi khi chọn dung tích.
 
-Các ảnh ghép trong yêu cầu được dùng làm tham khảo thẩm mỹ. Chúng không được giả lập thành file ảnh gốc trong dự án. Ảnh phong cảnh trên website là khung hình được trích từ video đã cung cấp; không phóng bản tham khảo 512 px làm ảnh nền lớn.
+Ảnh minh họa phần câu chuyện và cảnh rừng được vẽ dạng SVG có thể chỉnh sửa. Đây là phương án vector nhiều lớp, không phải ảnh chụp tách lớp. Các ảnh ghép tham khảo không được giả lập thành file ảnh gốc trong dự án.
 
 ### Video
 
-- `assets/vieperful-film.mp4` giữ nguyên nội dung, âm thanh và watermark của video người dùng cung cấp. File có độ phân giải 1280 × 720, dài khoảng 20 giây, dung lượng khoảng 5,3 MB.
-- Ảnh `film-poster.jpg` được tạo riêng, không ghi đè video gốc.
+- `assets/vieperful-film.mp4` giữ nguyên video gốc 1280 × 720, dài khoảng 20 giây.
+- `assets/vieperful-film-hd.mp4` là bản upscale lên 1920 × 1080, áp dụng lọc Lanczos và tăng nét nhẹ. Bản xử lý có thể hiển thị sạch hơn trên khung lớn, nhưng không thể phục hồi chi tiết chưa có trong bản gốc.
+- `assets/film-poster-hd.jpg` là ảnh dự phòng được xuất từ bản video đã xử lý. File gốc vẫn được giữ nguyên.
 - Để thay video, đổi nguồn và poster trong hàm `home()` ở `js/app.js`, hoặc thay các file tương ứng sau khi lưu bản gốc.
 - Video phát tắt tiếng, lặp lại, có nút phát/tạm dừng. Khi thiết bị bật giảm chuyển động, video không tự phát. Khi video tải lỗi, ảnh dự phòng vẫn hiển thị.
 
@@ -189,7 +192,7 @@ Bộ kiểm thử bao gồm:
 - Dữ liệu lưu hỏng và trường hợp không được phép lưu đơn.
 - Không có lỗi JavaScript hoặc tài nguyên HTTP thất bại trong các luồng chính.
 
-Kết quả kiểm tra bản bố cục mới: **20/20 nhóm kiểm thử đạt**; `npm run check` cũng đạt. Có kiểm tra hành trình từ nút chọn hương trên trang chủ đến bộ lọc theo dịp và trang chọn dung tích.
+Kết quả kiểm tra bản nâng cấp: **23/23 nhóm kiểm thử đạt**; `npm run check` cũng đạt. Có kiểm tra trắc nghiệm, xem nhanh, so sánh, bộ lọc, giỏ và đặt thử đầy đủ.
 
 Ảnh chụp kiểm thử nằm trong `test-results/` (được Git bỏ qua). Các phép thử trình duyệt tự động không thay thế hoàn toàn kiểm tra bằng người dùng.
 

@@ -10,6 +10,10 @@ Các ảnh dưới đây là ảnh chụp website chạy thực tế. Bấm vào
 
 ![Trang chủ Vieperful trên máy tính](previews/home-desktop.png)
 
+### Trang chủ — điện thoại
+
+![Trang chủ Vieperful trên điện thoại](previews/home-mobile.png)
+
 ### Trang sản phẩm — điện thoại
 
 ![Chọn dung tích trên điện thoại](previews/product-mobile.png)
@@ -18,23 +22,24 @@ Các ảnh dưới đây là ảnh chụp website chạy thực tế. Bấm vào
 
 | Khu vực | Người xem cần hiểu hoặc làm gì? | Nơi sửa nội dung trong `js/app.js` |
 | --- | --- | --- |
-| Phần mở đầu | Vieperful là gì; bắt đầu chọn hương hoặc xem toàn bộ sản phẩm | `home()` |
-| 01 — Chọn hoàn cảnh | Chọn đi học/đi làm, hẹn hò hoặc buổi tối để tới danh mục đã lọc | `occasionSection()` |
-| 02 — Sản phẩm nổi bật | Xem nhóm hương, tên, giá; chọn dung tích hoặc thêm nhanh 30 ml | `featuredSection()` và `productCard()` |
-| 03 — Câu chuyện | Đọc về cảm hứng thương hiệu sau khi đã hiểu sản phẩm | `brandStorySection()` |
+| Phần mở đầu | Vieperful là gì; bắt đầu trắc nghiệm chọn hương hoặc xem bộ sưu tập | `home()` |
+| 01 — Hơi thở của rừng | Cảnh vector nhiều lớp cho Sương Rừng, parallax/tilt nhẹ trên máy tính | `forestFeatureSection()` |
+| 02 — Chọn hoàn cảnh | Chọn dịp dùng hoặc mở trắc nghiệm ba câu hỏi | `occasionSection()` |
+| 03 — Sản phẩm nổi bật | Xem nhanh, so sánh, chọn dung tích hoặc thêm nhanh 30 ml | `featuredSection()` và `productCard()` |
+| 04 — Câu chuyện | Đọc về cảm hứng thương hiệu | `brandStorySection()` |
 | Hướng dẫn và chân trang | Tìm hướng dẫn sử dụng, FAQ, đơn hàng thử | `home()` và `index.html` |
 
-`home()` gọi từng phần theo thứ tự; có thể di chuyển lời gọi `${occasionSection()}`, `${featuredSection()}` và `${brandStorySection()}` để sắp xếp lại. Không cần sửa logic giỏ hàng.
+`home()` gọi từng phần theo thứ tự; có thể di chuyển lời gọi `${forestFeatureSection()}`, `${occasionSection()}`, `${featuredSection()}` và `${brandStorySection()}` để sắp xếp lại. Không cần sửa logic giỏ hàng.
 
 ## Hành trình chọn mua
 
-1. **Chọn mùi hương:** nút trên phần mở đầu đưa người xem đến các hoàn cảnh sử dụng. Chọn một hoàn cảnh sẽ mở bộ sưu tập đã lọc.
-2. **Chọn dung tích:** thẻ sản phẩm có liên kết “Xem chi tiết & chọn dung tích”. Trang chi tiết hiển thị khu vực dung tích, giá và nút thêm giỏ trong cùng một khối.
+1. **Chọn mùi hương:** trắc nghiệm ghi nhận dịp, nhóm hương và ngân sách để xếp hạng 1–2 gợi ý từ dữ liệu concept. Các thẻ dịp vẫn dẫn đến danh mục lọc.
+2. **Xem/chọn sản phẩm:** “Xem nhanh” cập nhật giá theo dung tích rồi thêm giỏ; có thể so sánh tối đa ba lựa chọn. Trang chi tiết vẫn hỗ trợ chọn dung tích.
 3. **Đặt hàng thử:** từ giỏ hàng sang biểu mẫu có phần xem lại đơn. Đây vẫn là mô phỏng, không thu tiền thật.
 
 Thanh 3 bước ở danh mục, chi tiết và trang đặt hàng được tạo bởi `shoppingSteps()`. Bước hiện tại được đánh dấu bằng nền xanh đậm và thuộc tính `aria-current="step"`.
 
-“Thêm nhanh 30 ml” trên thẻ sản phẩm là lối tắt có ghi rõ dung tích; người dùng muốn chọn 10 hoặc 50 ml đi qua trang chi tiết.
+“Thêm nhanh 30 ml” trên thẻ sản phẩm là lối tắt có ghi rõ dung tích. Xem nhanh và trang chi tiết đều hỗ trợ 10, 30 hoặc 50 ml.
 
 ## Đổi cỡ chữ
 
@@ -53,13 +58,15 @@ Muốn nội dung lớn hơn nữa, có thể đổi `--text-body` thành `17px`
 
 ## Chỉnh khoảng cách và bố cục
 
-`css/layout.css` được nạp **sau** `css/style.css`, nên là nơi ưu tiên chỉnh bố cục hiện tại. File chia thành 5 phần có chú thích tiếng Việt.
+`css/layout.css` được nạp **sau** `css/style.css`, nên là nơi ưu tiên chỉnh bố cục hiện tại. File chia thành các phần có chú thích tiếng Việt.
 
 | Cần chỉnh | Selector |
 | --- | --- |
 | Tỷ lệ chữ và video phần mở đầu | `.hero` |
 | Khoảng cách trên/dưới mỗi phần | `.section` |
 | Khu vực chọn hoàn cảnh | `.occasion-grid`, `.occasion-card` |
+| Cảnh rừng Sương Rừng | `.forest-feature`, `.forest-stage`, `.forest-layer`, `.forest-bottle` |
+| Hộp chọn / xem nhanh / so sánh | `.quiz-dialog`, `.quick-view-dialog`, `.wide-dialog` |
 | Nền khu vực sản phẩm | `.featured-section` |
 | Số cột sản phẩm | `.product-grid` |
 | Khung, khoảng đệm thẻ | `.product-card`, `.product-card-body` |
@@ -72,6 +79,6 @@ Máy tính dùng 3 cột sản phẩm, máy tính bảng dùng 2 cột, điện 
 
 ## Sau khi chỉnh
 
-Chạy `npm run check` và `npm test`. Bản hiện tại đạt 20 nhóm kiểm thử Chromium. Đã kiểm tra tràn ngang ở các độ rộng 320, 390, 768, 1024 và 1440 px cho trang chủ, bộ sưu tập, chi tiết, câu chuyện và hướng dẫn; luồng giỏ/đặt hàng được kiểm tra thêm trên điện thoại trong bộ test.
+Chạy `npm run check` và `npm test`. Bản hiện tại đạt 23/23 nhóm kiểm thử Chromium; `npm run check` cũng đạt. Đã kiểm tra tràn ngang ở 320 và 390 px, focus bàn phím, reduced motion, video fallback, bộ lọc, dung tích, giỏ và đặt thử.
 
 Ảnh trong `docs/previews/` là ảnh bàn giao. Khi thay đổi thiết kế tiếp, cần chụp lại nếu muốn ảnh phản ánh đúng website mới.
