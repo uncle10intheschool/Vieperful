@@ -9,6 +9,8 @@
   let pageCleanup = () => {};
   let currentRoute = "";
   let compareIds = [];
+  let compareReturnFocus = null;
+  let compareDeferFocus = false;
 
   function toast(message) {
     const element = document.querySelector("#toast");
@@ -39,6 +41,20 @@
       if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) dialog.close();
     });
   });
+  document.querySelector("#compare-dialog").addEventListener("close", () => {
+    const intendedTarget = compareReturnFocus;
+    const deferFocus = compareDeferFocus;
+    compareReturnFocus = null;
+    compareDeferFocus = false;
+    const restoreFocus = () => {
+      const target = intendedTarget?.isConnected && intendedTarget.getClientRects().length
+        ? intendedTarget
+        : document.querySelector("#collection-grid .compare-select input") || main;
+      target?.focus({ preventScroll: true });
+    };
+    if (deferFocus) requestAnimationFrame(restoreFocus);
+    else restoreFocus();
+  });
   function badge() {
     document.querySelector("#cart-count").textContent = Shop.count();
     document.querySelector(".cart-trigger").setAttribute("aria-label", `Mở giỏ hàng, ${Shop.count()} sản phẩm`);
@@ -47,7 +63,7 @@
     const defaultSize = product.sizes.find(s => s.ml === 30);
     return `<article class="product-card reveal" style="--delay:${index % 3 * 70}ms">
       <div class="product-card-media"><a class="product-visual ${product.color}" href="#/product/${product.id}" aria-label="Khám phá ${product.name}"><span class="product-tag">${product.label}</span><img src="${product.image}" alt="Minh họa chai nước hoa ${product.name}" loading="lazy" width="500" height="600"></a><button class="quick-view-trigger" data-action="quick-view" data-id="${product.id}" aria-label="Xem nhanh ${product.name}">Xem nhanh</button></div>
-      <div class="product-card-body"><span class="product-family">${Vieperful.groups[product.group]}</span><div class="product-title-row"><h3><a href="#/product/${product.id}">${product.name}</a></h3><span>${money(defaultSize.price)}</span></div><span class="card-price-caption">30 ml · Giá minh họa</span><p>${product.subtitle}</p><div class="product-card-purchase"><button class="button card-add" data-action="quick-add" data-id="${product.id}" aria-label="Thêm ${product.name} 30 ml vào giỏ">Thêm vào giỏ</button><button class="compare-toggle" data-action="compare-toggle" data-id="${product.id}" aria-pressed="${compareIds.includes(product.id)}"><span aria-hidden="true">${compareIds.includes(product.id) ? "✓" : "+"}</span> ${compareIds.includes(product.id) ? "Đang so sánh" : "So sánh"}</button></div></div>
+      <div class="product-card-body"><span class="product-family">${Vieperful.groups[product.group]}</span><div class="product-title-row"><h3><a href="#/product/${product.id}">${product.name}</a></h3><span>${money(defaultSize.price)}</span></div><span class="card-price-caption">30 ml · Giá minh họa</span><p>${product.subtitle}</p><div class="product-card-purchase"><button class="button card-add" data-action="quick-add" data-id="${product.id}" aria-label="Thêm ${product.name} 30 ml vào giỏ">Thêm vào giỏ</button><label class="compare-select"><input type="checkbox" data-action="compare-toggle" data-id="${product.id}" aria-label="So sánh ${product.name}" ${compareIds.includes(product.id) ? "checked" : ""}><span>So sánh</span></label></div></div>
     </article>`;
   }
   // Trang chủ được chia thành 4 phần để dễ đổi thứ tự và chỉnh nội dung.
@@ -148,24 +164,54 @@
     const launch = document.querySelector("#compare-launch");
     if (!launch) return;
     launch.hidden = compareIds.length === 0;
-    launch.setAttribute("aria-label", `Mở danh sách so sánh, ${compareIds.length} sản phẩm`);
-    document.querySelector("#compare-count").textContent = `${compareIds.length} / 3`;
-    document.querySelectorAll(".compare-toggle").forEach(button => {
-      const selected = compareIds.includes(button.dataset.id);
-      button.setAttribute("aria-pressed", String(selected));
-      button.innerHTML = `<span aria-hidden="true">${selected ? "✓" : "+"}</span> ${selected ? "Đang so sánh" : "Thêm vào so sánh"}`;
+    document.body.classList.toggle("has-compare", compareIds.length > 0);
+    document.body.classList.toggle("compare-ready", compareIds.length === 2);
+    document.querySelector("#compare-count").textContent = `Đã chọn ${compareIds.length}/2`;
+    document.querySelector("#compare-names").textContent = compareIds.map(id => Shop.product(id)?.name).filter(Boolean).join(" · ");
+    document.querySelector("#compare-prompt").textContent = compareIds.length === 1 ? "Hãy chọn thêm một mùi để đối chiếu." : "Đã đủ hai mùi để so sánh.";
+    const openButton = document.querySelector("#compare-open");
+    openButton.disabled = compareIds.length !== 2;
+    openButton.textContent = compareIds.length === 2 ? "So sánh 2 mùi" : "Chọn thêm một mùi";
+    document.querySelectorAll(".compare-select input").forEach(input => {
+      const selected = compareIds.includes(input.dataset.id);
+      input.checked = selected;
+      input.setAttribute("aria-label", selected ? `Bỏ chọn ${Shop.product(input.dataset.id)?.name} khỏi so sánh` : `So sánh ${Shop.product(input.dataset.id)?.name}`);
+      input.closest(".compare-select").classList.toggle("is-selected", selected);
     });
   }
   function renderCompare() {
     const products = compareIds.map(id => Shop.product(id)).filter(Boolean);
+    const concept = value => value && String(value).trim() ? escapeHTML(value) : "Chưa có thông tin concept";
     const rows = [
-      ["Nhóm hương", p => Vieperful.groups[p.group]],
-      ["Dịp sử dụng", p => p.occasions.map(o => Vieperful.occasions[o]).join(" · ")],
-      ["Nốt hương", p => p.notes.join(" · ")],
-      ["Giá 30 ml", p => money(p.sizes.find(s => s.ml === 30).price)]
+      ["Nhóm hương", p => concept(Vieperful.groups[p.group])],
+      ["Cảm giác chính", p => concept(p.description)],
+      ["Dịp sử dụng", p => concept(p.occasions?.map(o => Vieperful.occasions[o]).filter(Boolean).join(" · "))],
+      ["Hương đầu", p => concept(p.notes?.[0])],
+      ["Hương giữa", p => concept(p.notes?.[1])],
+      ["Hương cuối", p => concept(p.notes?.[2])],
+      ...[10, 30, 50].map(ml => [`Giá ${ml} ml`, p => {
+        const size = p.sizes?.find(item => item.ml === ml);
+        return size ? money(size.price) : "Chưa có thông tin concept";
+      }]),
+      ["Chi tiết", p => `<a class="compare-detail" href="#/product/${p.id}">Xem chi tiết</a>`],
+      ["Thêm vào giỏ", p => {
+        const size = p.sizes?.find(item => item.ml === 30) || p.sizes?.[0];
+        return size ? `<button class="button compare-add" data-action="compare-add" data-id="${p.id}" data-ml="${size.ml}">Thêm ${size.ml} ml vào giỏ</button>` : "Chưa có thông tin concept";
+      }]
     ];
-    document.querySelector("#compare-body").innerHTML = products.length ? `<div class="compare-table-wrap"><table class="compare-table"><thead><tr><th scope="col">Đặc điểm</th>${products.map(p => `<th scope="col"><div class="compare-product"><img src="${p.image}" alt="" width="70" height="84"><strong>${p.name}</strong><button class="compare-remove" data-action="compare-remove" data-id="${p.id}" aria-label="Bỏ ${p.name} khỏi danh sách so sánh">Bỏ</button></div></th>`).join("")}</tr></thead><tbody>${rows.map(([label, value]) => `<tr><th scope="row">${label}</th>${products.map(p => `<td>${value(p)}</td>`).join("")}</tr>`).join("")}</tbody></table></div><p class="small-note">Sản phẩm, nhóm hương và giá trong bảng đều là dữ liệu minh họa cho dự án môn học.</p>` : `<p class="empty-compare">Chọn tối đa ba mùi hương trong bộ sưu tập để so sánh.</p>`;
+    document.querySelector("#compare-body").innerHTML = products.length === 2 ? `<div class="compare-table-wrap"><table class="compare-table"><thead><tr><th scope="col">Đặc điểm</th>${products.map(p => `<th scope="col"><div class="compare-product"><img src="${p.image}" alt="" width="88" height="96"><strong>${escapeHTML(p.name)}</strong><button class="compare-remove" data-action="compare-remove" data-id="${p.id}" aria-label="Bỏ ${escapeHTML(p.name)} khỏi danh sách so sánh">Bỏ chọn</button></div></th>`).join("")}</tr></thead><tbody>${rows.map(([label, value]) => `<tr><th scope="row">${label}</th>${products.map(p => `<td>${value(p)}</td>`).join("")}</tr>`).join("")}</tbody></table></div><p class="small-note">Sản phẩm, giá và tầng hương là dữ liệu minh họa cho dự án môn học.</p><button class="text-link compare-dialog-clear" data-action="compare-clear">Xóa lựa chọn</button>` : `<p class="empty-compare">Chọn hai mùi hương trong bộ sưu tập để so sánh.</p>`;
     refreshCompare();
+  }
+  function clearCompare() {
+    const firstSelectedId = compareIds[0];
+    const dialog = document.querySelector("#compare-dialog");
+    const dialogOpen = dialog.open;
+    compareReturnFocus = [...document.querySelectorAll(".compare-select input")].find(input => input.dataset.id === firstSelectedId)
+      || document.querySelector("#collection-grid .compare-select input") || main;
+    compareIds = [];
+    refreshCompare();
+    if (dialogOpen) { compareDeferFocus = true; dialog.close(); }
+    else compareReturnFocus?.focus({ preventScroll: true });
   }
   function quickView(id) {
     const p = Shop.product(id);
@@ -410,21 +456,34 @@
     if (action === "quiz-open") openQuiz();
     if (action === "quiz-reset") openQuiz();
     if (action === "quick-view") quickView(id);
-    if (action === "compare-open") { renderCompare(); openDialog("compare-dialog"); }
+    if (action === "compare-open") {
+      if (compareIds.length !== 2) return;
+      compareReturnFocus = target;
+      renderCompare();
+      openDialog("compare-dialog");
+      document.querySelector("#compare-dialog [data-close]")?.focus({ preventScroll: true });
+    }
     if (action === "compare-toggle") {
       if (compareIds.includes(id)) compareIds = compareIds.filter(item => item !== id);
-      else if (compareIds.length < 3) compareIds = [...compareIds, id];
-      else { toast("Bạn có thể so sánh tối đa ba sản phẩm."); return; }
+      else if (compareIds.length < 2) compareIds = [...compareIds, id];
+      else { target.checked = false; refreshCompare(); toast("Bạn chỉ có thể so sánh hai mùi cùng lúc. Hãy bỏ chọn một mùi trước."); return; }
       refreshCompare();
     }
     if (action === "compare-remove") {
       const removedId = id;
       compareIds = compareIds.filter(item => item !== id);
       renderCompare();
-      if (!compareIds.length) {
-        closeDialogs();
-        document.querySelector(`.compare-toggle[data-id="${removedId}"]`)?.focus();
-      } else document.querySelector("#compare-body [data-action=compare-remove]")?.focus();
+      compareReturnFocus = [...document.querySelectorAll(".compare-select input")].find(input => input.dataset.id === removedId) || document.querySelector("#collection-grid .compare-select input") || main;
+      compareDeferFocus = true;
+      document.querySelector("#compare-dialog").close();
+    }
+    if (action === "compare-clear") clearCompare();
+    if (action === "compare-add") {
+      const product = Shop.product(id);
+      const size = Number(ml);
+      Shop.add(id, size);
+      badge();
+      toast(Shop.warning() ? "Đã thêm vào giỏ tạm thời. Trình duyệt đang hạn chế lưu trữ; giỏ có thể mất khi tải lại." : `${product.name} · ${size} ml đã được thêm vào giỏ.`);
     }
     if (action === "cart") { renderCart(); openDialog("cart-dialog"); }
     if (action === "menu") openDialog("menu-dialog");

@@ -62,7 +62,7 @@ Trên Windows, có thể dùng `py -m http.server 4173`.
 | `#/order/<mã-đơn>` | Xác nhận đơn đã lưu trên trình duyệt |
 | `#/orders` | Lịch sử và xóa đơn thử |
 
-Giỏ hàng mở từ biểu tượng túi. Trắc nghiệm chọn hương dùng ba lựa chọn (dịp, nhóm hương, ngân sách) để xếp hạng 1–2 gợi ý từ dữ liệu minh họa. Từ danh mục có thể xem nhanh sản phẩm với giá cập nhật theo dung tích, hoặc so sánh tối đa ba sản phẩm. Menu, giỏ, tìm kiếm và các công cụ mới dùng hộp thoại có vòng focus bàn phím; nhấn **Escape** để đóng. Bộ lọc được lưu trong URL nên có thể tải lại hoặc chia sẻ lựa chọn lọc.
+Giỏ hàng mở từ biểu tượng túi. Trắc nghiệm chọn hương dùng ba lựa chọn (dịp, nhóm hương, ngân sách) để xếp hạng 1–2 gợi ý từ dữ liệu minh họa. Từ danh mục có thể xem nhanh sản phẩm với giá cập nhật theo dung tích, hoặc chọn đúng hai mùi để so sánh. Menu, giỏ, tìm kiếm và các công cụ mới dùng hộp thoại có vòng focus bàn phím; nhấn **Escape** để đóng. Bộ lọc được lưu trong URL nên có thể tải lại hoặc chia sẻ lựa chọn lọc.
 
 ## Cấu trúc thư mục
 

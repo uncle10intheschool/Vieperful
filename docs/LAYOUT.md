@@ -39,7 +39,7 @@ Các ảnh dưới đây được chụp từ bản chạy trong Chromium. Chọ
 ## Hành trình chọn mua
 
 1. **Tìm mùi:** trắc nghiệm hỏi dịp sử dụng, nhóm hương và ngân sách; kết quả xếp hạng tối đa hai mùi từ dữ liệu concept và nêu lý do.
-2. **Chọn sản phẩm:** danh mục lọc theo nhóm hương/dịp, tìm kiếm và sắp xếp; có thể xem nhanh với dung tích và giá cập nhật, so sánh tối đa ba sản phẩm, hoặc mở trang chi tiết.
+2. **Chọn sản phẩm:** danh mục lọc theo nhóm hương/dịp, tìm kiếm và sắp xếp; có thể xem nhanh với dung tích và giá cập nhật, chọn đúng hai mùi để so sánh, hoặc mở trang chi tiết.
 3. **Thử đặt hàng:** chọn dung tích, số lượng và điền biểu mẫu minh họa. Đơn lưu trong trình duyệt hiện tại; không thu tiền và không tạo yêu cầu giao hàng.
 
 Giỏ hàng vẫn dùng chung dữ liệu và logic trong `js/store.js`. Kích thước giỏ và lịch sử đơn được lưu ở localStorage của trình duyệt.
