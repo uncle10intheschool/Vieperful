@@ -75,8 +75,9 @@ Vieperful/
 │   └── app.js              # Điều hướng, render trang, sự kiện, kiểm tra biểu mẫu
 ├── assets/
 │   ├── mark.svg            # Biểu tượng thương hiệu dạng vector
-│   ├── sen-ha.svg ...      # 6 hình minh họa concept hiện tại
-│   ├── forest-*.svg        # Cảnh rừng và câu chuyện dạng vector nhiều lớp
+│   ├── sen-ha.webp ...     # 6 ảnh concept sản phẩm WebP, 1254 × 1254
+│   ├── vieperful-story.webp # Ảnh câu chuyện thương hiệu, 1672 × 941
+│   ├── forest-*.svg        # Cảnh rừng nhiều lớp dạng vector
 │   ├── vieperful-film.mp4  # Bản gốc 1280×720, được giữ nguyên
 │   ├── vieperful-film-hd.mp4 # Bản 1920×1080 đã upscale/làm nét nhẹ
 │   ├── film-poster-hd.jpg  # Ảnh dự phòng 1920×1080
@@ -101,7 +102,7 @@ Mở `js/products.js`. Ví dụ:
   name: "Sen Hạ",
   group: "floral",                  // floral | fresh | woody
   occasions: ["everyday", "date"],  // everyday | work | date | evening
-  image: "assets/sen-ha.svg",
+  image: "assets/sen-ha.webp",
   sizes: [
     { ml: 10, price: 189000 },
     { ml: 30, price: 459000 },
@@ -125,10 +126,10 @@ Mở `js/products.js`. Ví dụ:
 
 1. Thêm ảnh mới vào `assets/`, giữ lại file gốc nếu cần chỉnh sửa.
 2. Đổi trường `image` trong `products.js`.
-3. Dùng ảnh rõ, tối ưu dung lượng, ưu tiên tối thiểu khoảng 800 px cho ảnh chi tiết.
-4. Sáu SVG hiện tại là hình minh họa concept, không phải ảnh chụp sản phẩm thật. Bộ ảnh ghép tham khảo không chứa đủ sáu tệp ảnh riêng trong workspace; người dùng đã chọn gửi lại ảnh riêng. Khi nhận đủ ảnh, đổi trường `image` theo ID tương ứng trong `js/products.js`. Chữ trên hình chai hiện tại minh họa 30 ml; ảnh không thay đổi khi chọn dung tích.
+3. Sáu ảnh sản phẩm hiện tại là WebP vuông 1254 × 1254; ảnh câu chuyện là WebP 1672 × 941. Ảnh dùng cho nội dung này là concept minh họa dự án, không xác nhận sản phẩm thương mại có thật.
+4. Đổi trường `image` theo ID tương ứng trong `js/products.js`. Dung tích và giá được cập nhật theo lựa chọn, còn chữ dung tích đã in trong ảnh concept vẫn là 30 ml.
 
-Ảnh minh họa phần câu chuyện và cảnh rừng được vẽ dạng SVG có thể chỉnh sửa. Đây là phương án vector nhiều lớp, không phải ảnh chụp tách lớp. Các ảnh ghép tham khảo không được giả lập thành file ảnh gốc trong dự án.
+Ảnh câu chuyện thương hiệu hiện dùng `assets/vieperful-story.webp`. Cảnh rừng Sương Rừng vẫn là minh họa SVG nhiều lớp để tạo hiệu ứng chiều sâu; đây không phải ảnh chụp tách lớp hay mô hình chai 360°.
 
 ### Video
 

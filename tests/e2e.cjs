@@ -46,6 +46,13 @@ async function run() {
   await check("Trang chủ, ảnh, phông chữ và chế độ giảm chuyển động", async () => {
     await go("/");
     await page.evaluate(() => document.fonts.ready);
+    const storyImage = page.locator(".story-image img");
+    await storyImage.scrollIntoViewIfNeeded();
+    await storyImage.evaluate(image => image.decode());
+    assert.equal(await storyImage.getAttribute("src"), "assets/vieperful-story.webp");
+    const productImages = await page.evaluate(() => window.Vieperful.products.map(product => product.image));
+    assert.equal(productImages.length, 6);
+    assert.ok(productImages.every(src => src.endsWith(".webp")));
     await page.locator(".site-footer").scrollIntoViewIfNeeded();
     await page.waitForTimeout(150);
     const broken = await page.evaluate(() => [...document.images].filter(i => !i.complete || !i.naturalWidth).map(i => i.src));
