@@ -128,8 +128,8 @@
 .forest-copy h2 em { color: #d3bf92; }
 .forest-copy p { max-width: 480px; color: #d5dbd2; font-size: var(--text-body); line-height: 1.9; }
 .forest-copy small { margin-top: 20px; color: #c2cbbc; font-size: var(--text-label); }
-.button-light { color: #263c30; background: #e9dfc8; border-color: #e9dfc8; }
-.button-light:hover { background: #f5edda; }
+.button-light { color: #1e2d23; background: #c5a56d; border-color: #c5a56d; font-weight: 500; box-shadow: 0 8px 24px #07140e30; }
+.button-light:hover { color: #17261d; background: #d5bb83; border-color: #d5bb83; transform: translateY(-1px); }
 .forest-stage { position: relative; min-height: 610px; overflow: hidden; isolation: isolate; background: radial-gradient(ellipse at 58% 35%,#71836a 0,#455d4c 31%,#263e32 71%,#182b23 100%); perspective: 900px; }
 .forest-glow { position: absolute; z-index: 0; width: 42%; aspect-ratio: 1; top: -8%; left: 28%; border-radius: 50%; background: #e7d39d; filter: blur(85px); opacity: .18; pointer-events: none; }
 .forest-layer { position: absolute; inset: -2%; z-index: 1; width: 104%; height: 104%; max-width: none; object-fit: cover; pointer-events: none; user-select: none; will-change: transform; }
